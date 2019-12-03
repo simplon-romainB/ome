@@ -6,6 +6,35 @@
 <!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
 <!-- * * * * * * * to get started with your project! * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<p class = "focus-in-contract-bck">un petit test</p>
-
-<router-outlet></router-outlet>
+<header>
+    <a routerLink="home" routerLinkActive="active">Home</a>
+    <a routerLink="blog" routerLinkActive="active">blog</a>
+    <a routerLink="projects" routerLinkActive="active">projects</a>
+</header>
+<ngb-accordion #acc="ngbAccordion">
+    <ngb-panel id="toggle-1" title="Bio" class = "accordion">
+      <ng-template ngbPanelContent>
+        <img src="http://127.0.0.1:8887/photoperso.jpg" class="photoperso">
+        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia
+        aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+        sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+        craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
+        occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+        labore sustainable VHS.
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+<div class ="container-fluid">
+  <div class ="row no-gutters">
+    <div class = "focus-in-contract-bck col-12 linear-gradient">
+      <p>Romain Barry</p>
+      <p> Développeur Front-End Angular</p>
+      <img class ="twitter" src="http://127.0.0.1:8887/iconmonstr-twitter-1-240.png">
+      <img class = "github" src="http://127.0.0.1:8887/Github.png">
+     </div>
+  </div>
+</div>
+<div [@routeAnimations]="o && o.activatedRouteData 
+      && o.activatedRouteData['animation']">
+    <router-outlet #o="outlet"></router-outlet>
+</div>
