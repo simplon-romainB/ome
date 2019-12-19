@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from '../users.service';
 
 @Component({
   selector: 'app-blog',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BlogComponent implements OnInit {
 
-  constructor() { }
+  constructor(private usersService: UsersService) { }
 
+  private email: String
+  private password: String
   ngOnInit() {
   }
-
+myFunc(email,password) {
+  this.usersService.register(email,password)
+  console.log("ok")
+}
 }

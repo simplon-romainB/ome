@@ -1,22 +1,91 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap");
+
+
+.typewriter-text {
+        font-family: 'Roboto Mono';
+    display: inline-block;
+  	overflow: hidden;
+  	letter-spacing: 2px;
+ 	animation: typing 5s steps(30, end), blink .75s step-end infinite;
+    white-space: nowrap;
+    font-size: 30px;
+    font-weight: 700;
+    border-right: 4px solid orange;
+    box-sizing: border-box;
+}
+
+@keyframes typing {
+    from { 
+        width: 0% 
+    }
+    to { 
+        width: 50% 
+    }
+}
+
+@keyframes blink {
+    from, to { 
+        border-color: transparent 
+    }
+    50% { 
+        border-color: orange; 
+    }
+}
+
+.contain {
+        padding:0;
+}
+
+.panel {
+    color:black;
+}
+
+a
+{
+color: black;
+text-decoration: none;
+}
+
 P {
-    text-align: center;
+    
     font-size:3.5em;
     text-shadow: 0.1em 0.1em 0.2em black;
 }
 .accordion {
     text-align:center;
+    test-decoration: none;
+    font-color: "black";
 }
 
 .twitter {
     height:4vh;
     width:4vh;
     display: inline-block;
+    position: absolute;
+    left: 0;
+    bottom:0;
+    z-index:1;
+    
 }
+
 
 .github {
     height:4vh;
     width:4vh;
     display: inline-block;
+    position: absolute;
+    left: 4vh;
+    bottom:0;
+
+}
+
+.in {
+    height:4vh;
+    width:4vh;
+    display: inline-block;
+    position: absolute;
+    left: 8vh;
+    bottom:0;    
 }
 .photo {
     height: 34vh; 
@@ -27,7 +96,10 @@ P {
 }
 
 .linear-gradient {
-  background: linear-gradient(to left, #e6e6e6, white);
+  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 1) 10%, rgba(255, 255, 255, 0)) 75%, url('http://127.0.0.1:8887/ecran.jpg') center / cover;
+  opacity: 0.5;
+  height: 25vh;
+  
 }
 
 .focus-in-contract-bck {

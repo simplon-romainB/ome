@@ -7,12 +7,22 @@
 <!-- * * * * * * * to get started with your project! * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <header>
-    <a routerLink="home" routerLinkActive="active">Home</a>
-    <a routerLink="blog" routerLinkActive="active">blog</a>
-    <a routerLink="projects" routerLinkActive="active">projects</a>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="home" routerLinkActive="active">Home</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" routerLink="blog" routerLinkActive="active">blog</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" routerLink="projects" routerLinkActive="active">projects</a>
+          </li>
+        </ul>
+      </nav>
 </header>
 <ngb-accordion #acc="ngbAccordion">
-    <ngb-panel id="toggle-1" title="Bio" class = "accordion">
+    <ngb-panel id="toggle-1" title="Bio" class = "accordion panel">
       <ng-template ngbPanelContent>
         <img src="http://127.0.0.1:8887/photoperso.jpg" class="photoperso">
         Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia
@@ -24,13 +34,13 @@
       </ng-template>
     </ngb-panel>
   </ngb-accordion>
-<div class ="container-fluid">
+<div class ="container-fluid contain">
   <div class ="row no-gutters">
-    <div class = "focus-in-contract-bck col-12 linear-gradient">
-      <p>Romain Barry</p>
-      <p> Développeur Front-End Angular</p>
-      <img class ="twitter" src="http://127.0.0.1:8887/iconmonstr-twitter-1-240.png">
-      <img class = "github" src="http://127.0.0.1:8887/Github.png">
+    <div class = " col-lg-12 linear-gradient no-gutters flexbox">
+      <p class = "typewriter-text">Romain Barry Développeur Front-End Angular</p>
+      <a href="https://twitter.com/barry_romain"><img class ="twitter" src="http://127.0.0.1:8887/iconmonstr-twitter-1-240.png"></a>
+      <a href="https://github.com/simplon-romainB?tab=repositories"><img class = "github" src="http://127.0.0.1:8887/Github.png"></a>
+      <a href="https://www.linkedin.com/in/romain-barry-843478132/"><img class = "in" src="http://127.0.0.1:8887/linkedin.png"></a>
      </div>
   </div>
 </div>
