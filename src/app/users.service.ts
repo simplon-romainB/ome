@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,4 +16,18 @@ this.http.post("https://peaceful-mountain-88307.herokuapp.com/db", { email: emai
 (error) => {
   console.log('Erreur ! : ' + error);
   });
-}}
+}
+
+login(email,password) {
+    this.http.post("https://peaceful-mountain-88307.herokuapp.com/login", { email: email, password: password}).subscribe((res) => {
+      console.log(res);
+      },
+    (error) => {
+      console.log('Erreur ! : ' + error);
+      });
+
+    }
+addComment(comment) {
+  
+}
+  }

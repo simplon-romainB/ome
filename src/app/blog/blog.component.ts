@@ -15,7 +15,7 @@ export class BlogComponent implements OnInit {
   ngOnInit() {
   }
 myFunc(email,password) {
-  this.usersService.register(email,password)
+  this.usersService.login(email,password)
   console.log("ok")
 }
 }
