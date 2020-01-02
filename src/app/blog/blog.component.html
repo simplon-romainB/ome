@@ -19,6 +19,68 @@
   <div class="container">
 
     <div class="row">
+      <ng-template #content let-modal>
+        <div class="modal-header ">
+          <h4 class="modal-title" id="modal-basic-title">Nouveau billet</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body newArticle">
+          <form>
+            <div class="form-group">
+              <label for="dateOfBirth">Titre</label>
+              <div class="input-group ">
+                  <input class="form-control" aria-label="title" [(ngModel)]="titre" [ngModelOptions]="{standalone: true}">
+              </div>
+              <div class = "input-group newBody">
+                  <textarea class="form-control" aria-label="With textarea" [(ngModel)]="article" [ngModelOptions]="{standalone: true}"></textarea>
+              </div> 
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+                </div>
+              </div>
+            
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="newArticle(this.titre,this.article,this.authToken)">Save</button>
+        </div>
+      </ng-template>
+      <ng-template #newContent let-modal>
+        <div class="modal-header ">
+          <h4 class="modal-title" id="modal-basic-title">Nouveau commentaire</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body newArticle">
+          <form>
+            <div class="form-group">
+              <label for="dateOfBirth">auteur</label>
+              <div class="input-group ">
+                  <input class="form-control" aria-label="auteur" [(ngModel)]="author" [ngModelOptions]="{standalone: true}">
+              </div>
+              <div class = "input-group newBody">
+                  <textarea class="form-control" aria-label="With textarea" [(ngModel)]="comment" [ngModelOptions]="{standalone: true}"></textarea>
+              </div> 
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+                </div>
+              </div>
+            
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="newComment(this.articleTitle,this.author,this.comment,this.authToken)">Save</button>
+        </div>
+      </ng-template>
+      
+      <button *ngIf="authRole=='admin'"  class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
+      
+      <hr>
+      
+      
 
       <!-- Blog Entries Column -->
       <div class="col-md-8">
@@ -28,46 +90,25 @@
         </h1>
 
         <!-- Blog Post -->
-        <div class="card mb-4">
+      <div *ngFor="let book of articlesValue">
+        <div  class="card mb-4">
           <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
           <div class="card-body">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
+            <h2 class="card-title">{{book.articles_name}}</h2>
+            <p class="card-text">{{book.articles_body}}</p>
+            <button *ngIf="authRole != null"   href="#" class="btn btn-primary" (click)="openComment(newContent);defineArticle(book.articles_name)">ajouter un commentaire</button>
           </div>
           <div class="card-footer text-muted">
-            Posted on January 1, 2017 by
-            <a href="#">Start Bootstrap</a>
+            {{book.articles_date}}
+          </div>
+          <div *ngFor= "let comment of commentsValue">
+            <div>ok
+              {{comment.comments_body | filterpipe: book.articles_id: comment.comments_articles}}
+            </div>
           </div>
         </div>
-
-        <!-- Blog Post -->
-        <div class="card mb-4">
-          <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-          <div class="card-body">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
-          </div>
-          <div class="card-footer text-muted">
-            Posted on January 1, 2017 by
-            <a href="#">Start Bootstrap</a>
-          </div>
-        </div>
-
-        <!-- Blog Post -->
-        <div class="card mb-4">
-          <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-          <div class="card-body">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
-          </div>
-          <div class="card-footer text-muted">
-            Posted on January 1, 2017 by
-            <a href="#">Start Bootstrap</a>
-          </div>
-        </div>
+      </div>
+        
 
         <!-- Pagination -->
         <ul class="pagination justify-content-center mb-4">
@@ -85,17 +126,7 @@
       <div class="col-md-4">
 
         <!-- Search Widget -->
-        <div class="card my-4">
-          <h5 class="card-header">Search</h5>
-          <div class="card-body">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search for...">
-              <span class="input-group-btn">
-                <button class="btn btn-secondary" type="button">Go!</button>
-              </span>
-            </div>
-          </div>
-        </div>
+        
 
         <!-- Categories Widget -->
         <div class="card my-4">
@@ -134,9 +165,49 @@
 
         <!-- Side Widget -->
         <div class="card my-4">
-          <h5 class="card-header">Side Widget</h5>
+          <h5 class="card-header">Connexion</h5>
           <div class="card-body">
-            You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+            <div *ngIf= "connexion == 0">
+              <button type="button" class="btn btn-primary btn-lg" (click) = loginShow()>login</button>
+              <button type="button" class="btn btn-primary btn-lg" (click) = registerShow()>register</button>
+            </div>
+            <form *ngIf="connexion == 2" (ngSubmit)="register(this.email,this.password)" #heroForm="ngForm" ngNativeValidate>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" #emailValid="ngModel" required email>
+            </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+              </div>
+               
+                <input type="password" class="form-control" id="Password1" pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$" #uname="ngModel" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" required>
+              
+              <small>le mot de passe doit faire 8 caractères minimum, comporter une majuscule, une minuscule et un caractère special</small>
+              <button type="submit" class = "btn btn-primary" >register</button>
+            </form>
+            <form *ngIf="connexion == 1">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="email" [ngModelOptions]="{standalone: true}">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
+              </div>
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+              </div>
+              <button type="submit" class="btn btn-primary" (click) = myFunc(this.email,this.password)>login</button>
+            </form>
+            <form *ngIf="connexion == 3">
+              <div class="form-group">
+               
+                {{this.email}} 
+                {{this.authId}}
+               </div>
+            </form>
           </div>
         </div>
 
@@ -151,7 +222,7 @@
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+      <p class="m-0 text-center text-white">Copyright &copy; Romain Barry 2019</p>
     </div>
     <!-- /.container -->
   </footer>

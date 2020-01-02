@@ -13,13 +13,17 @@ import { AppComponent } from './app.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { BlogComponent } from './blog/blog.component';
 import { HomeComponent } from './home/home.component';
+import { FilterpipePipe } from './filterpipe.pipe';
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProjectsComponent,
     BlogComponent,
-    HomeComponent
+    HomeComponent,
+    FilterpipePipe,
+    ContactComponent
   ],
   imports: [
     FormsModule,
@@ -32,7 +36,8 @@ import { HomeComponent } from './home/home.component';
     RouterModule.forRoot([
       {path:"blog", component: BlogComponent, data: {animation : "blogpage"} },
       {path: "home", component: HomeComponent, data: {animation : "homepage"}},
-      {path: "projects", component: ProjectsComponent, data: {animation: "projectspage"}}
+      {path: "projects", component: ProjectsComponent, data: {animation: "projectspage"}},
+      {path: "contact", component: ContactComponent, data: {animation: "contactpage"}}
     ])
   ],
   providers: [ UsersService],
