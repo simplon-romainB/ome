@@ -1,7 +1,6 @@
 import { Component,OnInit } from '@angular/core';
-import {RouterOutlet} from '@angular/router';
 import { slideInAnimation } from './route-animations';
-
+import { NavigationStart, Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +9,12 @@ import { slideInAnimation } from './route-animations';
   animations: [ slideInAnimation ]
 })
 export class AppComponent {
-  title = 'ome';
+  constructor(private router: Router) {}
 
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
 
-  
+ ngOnInit() {
+ }
 }

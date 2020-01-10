@@ -18,6 +18,6 @@ private contact = {
   message: null
 }
 sendContact(name,email,message) {
-var s = this.usersService.sendContact(name,email,message).subscribe(v=> console.log(v))
+var s = this.usersService.sendContact(name,email,message)
 }
 }
