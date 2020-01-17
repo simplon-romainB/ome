@@ -3,6 +3,7 @@ import { UsersService } from '../users.service';
 import {KeepconnectionService} from '../keepconnection.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Router,NavigationStart, ActivatedRoute} from '@angular/router'
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 @Component({
@@ -34,12 +35,26 @@ export class BlogComponent implements OnInit {
   private idCurrent 
   private articleEdit 
   private titleEdit 
+  private model;
+  private image;
+
+  public Editor = ClassicEditor;
   ngOnInit() {
-    var displayArticles = this.usersService.initArticles().subscribe(v=> this.articlesValue = v) ;
-    var t = this.usersService.initComments().subscribe(v=> this.commentsValue = v)
-    var l = this.usersService.initArticles().subscribe(v => this.items = Array(this.articlesValue.length).fill(0).map((x, i) =>({ id: (i + 1), articles_name: v[i].articles_name, articles_body: v[i].articles_body, articles_date: v[i].articles_date, articles_id: v[i].articles_id, articles_categorie: v[i].articles_categorie, articles_image: v[i].articles_image})));
-    var j = this.usersService.initComments().subscribe(v=> this.itemsFilter = this.items);
+
+    this.Init()
+    
+}
+
+
+  Init() {
+    var displayArticles = this.usersService.initArticles().subscribe(v=> {this.articlesValue = v 
+      this.commentsValue = v
+      this.items = Array(this.articlesValue.length).fill(0).map((x, i) =>({ id: (i + 1), articles_name: v[i].articles_name, articles_body: v[i].articles_body, articles_date: v[i].articles_date, articles_id: v[i].articles_id, articles_categorie: v[i].articles_categorie, articles_image: v[i].articles_image}));
+      this.itemsFilter = this.items
+    });
+      var s = this.usersService.initComments().subscribe(v=> this.commentsValue = v)
   }
+
   onChangePage(pageOfItems: Array<any>) {
     // update current page of items
     this.pageOfItems = pageOfItems;
@@ -80,7 +95,7 @@ export class BlogComponent implements OnInit {
 
   confirmDelete(deletecontent,id) {
     this.idCurrent = id
-    this.modalService.open(deletecontent, {ariaLabelledBy: 'modal-basic-title', size: 'xl'}).result.then((result) => {
+    this.modalService.open(deletecontent, {ariaLabelledBy: 'modal-basic-title', size: 'sm'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed`;
@@ -89,6 +104,9 @@ export class BlogComponent implements OnInit {
 
   deleteArticle(id,token) {
     this.usersService.deleteArticle(id,token)
+    var s = this.usersService.deleteArticle(id,token).subscribe(v =>
+      this.Init())
+    
   }
 disconnect() {
   this.keepconnectionService.connexion = 0
@@ -101,7 +119,7 @@ myFunc(email,password) {
   this.usersService.login(email,password)
   var s = this.usersService.login(email,password).subscribe(v =>
      {
-      console.log(v);
+      
       if (v!=null&&v!='wrong password') {
         this.keepconnectionService.connexion = 3
         this.keepconnectionService.authToken = v[0];
@@ -130,6 +148,8 @@ articleFilter(categorie) {
 }
 register(email,password) {
   this.usersService.register(email,password)
+  this.keepconnectionService.connexion = 0
+  alert("un email de confirmation a été envoyé a" + this.keepconnectionService.email + " veuillez clicker sur le lien fourni pour activer votre compte")
   }
 loginShow() {
   this.keepconnectionService.connexion = 1
@@ -137,9 +157,9 @@ loginShow() {
 registerShow() {
   this.keepconnectionService.connexion = 2
 }
-newArticle(titre,article,authToken) {
-  this.usersService.newArticle(titre,article,authToken)
-  
+newArticle(titre,article,authToken,categorie,image) {
+  this.usersService.newArticle(titre,article,authToken,categorie,image)
+  var s = this.usersService.newArticle(titre,article,authToken,categorie,image).subscribe(v => this.Init())
 }
 newComment(article,author,comment,token) {
   
@@ -147,5 +167,7 @@ newComment(article,author,comment,token) {
 }
 updateArticle(title,body,token, id) {
   this.usersService.updateArticle(title,body,token, id)
+  var s = this.usersService.updateArticle(title,body, token, id).subscribe(v =>
+    this.Init())
 }
 }

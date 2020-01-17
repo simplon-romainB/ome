@@ -8,6 +8,7 @@ import { UsersService } from "./users.service";
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { JwPaginationComponent } from 'jw-angular-pagination';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,7 +31,7 @@ import { KeepconnectionService } from './keepconnection.service';
   ],
   imports: [
     FormsModule,
-    
+    CKEditorModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
@@ -38,6 +39,7 @@ import { KeepconnectionService } from './keepconnection.service';
     FontAwesomeModule,
     BrowserAnimationsModule,
     RouterModule.forRoot([
+      {path : '' , redirectTo : '/home' , pathMatch:'full' },  
       {path:"blog", component: BlogComponent, data: {animation : "blogpage"} },
       {path: "home", component: HomeComponent, data: {animation : "homepage"}},
       {path: "projects", component: ProjectsComponent, data: {animation: "projectspage"}},

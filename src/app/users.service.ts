@@ -59,7 +59,7 @@ initComments() {
   
   }
 }
-newArticle(titre,article,token) {
+newArticle(titre,article,token, categorie, image) {
   
   let date = formatDate(new Date(), 'yyyy/MM/dd', 'en');
   const httpOptions = {
@@ -69,7 +69,8 @@ newArticle(titre,article,token) {
       'Access-Control-Allow-Headers': '*'
     })
   };
-    return this.http.post("https://peaceful-mountain-88307.herokuapp.com/postarticles", { titre: titre, article: article, date: date},httpOptions).subscribe(r=>{})
+  console.log(categorie)
+    return this.http.post("https://peaceful-mountain-88307.herokuapp.com/postarticles", { titre: titre, article: article, date: date, categorie: categorie, image: image},httpOptions)
 
 }
 
@@ -82,7 +83,8 @@ updateArticle(titre,article,token,id) {
       'Access-Control-Allow-Methods': 'PUT, POST, GET, DELETE, OPTIONS',
     })
   };
-    return this.http.put("https://peaceful-mountain-88307.herokuapp.com/updatearticles", { titre: titre, article: article, id: id},httpOptions).subscribe(r=>{})
+    return this.http.put("https://peaceful-mountain-88307.herokuapp.com/updatearticles", { titre: titre, article: article, id: id},httpOptions)
+   
 }
 newComment(article,author,comment,token) {
 
@@ -108,7 +110,7 @@ deleteArticle(id,token) {
     
     
   }
-  return this.http.post("https://peaceful-mountain-88307.herokuapp.com/deletearticles",{id:id}, httpOptions).subscribe(r=>{})
+  return this.http.post("https://peaceful-mountain-88307.herokuapp.com/deletearticles",{id:id}, httpOptions)
 }
 sendContact(name,email,message) {
   const httpOptions = {

@@ -19,9 +19,9 @@
   <div class="container">
 
     <div class="row">
-      <ng-template #content let-modal>
+      <ng-template #content let-modal >
         <div class="modal-header ">
-          <h4 class="modal-title" id="modal-basic-title">Nouveau billet</h4>
+          <h4 class="modal-title" id="modal-basic-title">Nouvel article</h4>
           <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -29,26 +29,50 @@
         <div class="modal-body newArticle">
           <form>
             <div class="form-group">
+              <label for="image">Image</label> 
+              <input class="form-control" aria-label="image" [(ngModel)]="image" [ngModelOptions]="{standalone: true}" placeholder="Entrez l'adresse de votre image d'illustration">
               <label for="dateOfBirth">Titre</label>
               <div class="input-group ">
                   <input class="form-control" aria-label="title" [(ngModel)]="titre" [ngModelOptions]="{standalone: true}">
               </div>
+              <label for="dateOfBirth">Article</label>
               <div class = "input-group newBody">
-                  <textarea class="form-control" aria-label="With textarea" [(ngModel)]="article" [ngModelOptions]="{standalone: true}"></textarea>
+                <ckeditor [editor]="Editor"  [(ngModel)]="article" [ngModelOptions]="{standalone: true}" class = "textEditor"></ckeditor>
+                  
               </div> 
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
-                </div>
               </div>
             
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" (click)="newArticle(this.titre,this.article,this.keepconnectionService.authToken)">Save</button>
+          <button type="button" class="btn btn-outline-dark" (click)="newArticle(this.titre,this.article,this.keepconnectionService.authToken, model, image);modal.dismiss('Cross click')">Save</button>
+          <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="model">
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" value="tech" [(ngModel)]="model" [ngModelOptions]="{standalone: true}"> Tech
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" value="nouvelle" [(ngModel)]="model" [ngModelOptions]="{standalone: true}"> Nouvelle
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" value="fanfiction" [(ngModel)]="model" [ngModelOptions]="{standalone: true}"> Fanfiction
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" value="poesie" [(ngModel)]="model" [ngModelOptions]="{standalone: true}"> Poesie
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" value="chronique" [(ngModel)]="model" [ngModelOptions]="{standalone: true}"> Chronique
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" value="gestation" [(ngModel)]="model" [ngModelOptions]="{standalone: true}"> Gestation
+            </label>
+          </div>
         </div>
       </ng-template>
       <ng-template #deletecontent let-modal>
         <div>
+          <div class="modal-header ">
+            <h4 class="modal-title" id="modal-basic-title">Etes vous sur de vouloir supprimer cette article ?</h4>
+          </div>
          <button type="button" class="btn btn-outline-dark" (click)="deleteArticle(this.idCurrent,this.keepconnectionService.authToken);modal.dismiss('cross click')">oui</button>
           <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cross click')">non</button>
         </div>
@@ -68,17 +92,15 @@
                   <input class="form-control" aria-label="title" [(ngModel)]="titleEdit" [ngModelOptions]="{standalone: true}">
               </div>
               <div class = "input-group newBody">
-                  <textarea class="form-control" aria-label="With textarea" [(ngModel)]="articleEdit" [ngModelOptions]="{standalone: true}"></textarea>
+                <label for="dateOfBirth">Article</label>
+                <ckeditor [editor]="Editor"  [(ngModel)]="articleEdit" [ngModelOptions]="{standalone: true}" class = "textEditor"></ckeditor>
               </div> 
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
-                </div>
               </div>
             
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" (click)="updateArticle(this.titleEdit,this.articleEdit,this.keepconnectionService.authToken, this.idCurrent)">Save</button>
+          <button type="button" class="btn btn-outline-dark" (click)="updateArticle(this.titleEdit,this.articleEdit,this.keepconnectionService.authToken, this.idCurrent);modal.dismiss('Cross click')">Save</button>
         </div>
       </ng-template>
       <ng-template #newContent let-modal>
@@ -95,22 +117,20 @@
               <div class="input-group ">
                   <input class="form-control" aria-label="auteur" [(ngModel)]="author" [ngModelOptions]="{standalone: true}">
               </div>
+              <label for="dateOfBirth">commentaire</label>
               <div class = "input-group newBody">
-                  <textarea class="form-control" aria-label="With textarea" [(ngModel)]="comment" [ngModelOptions]="{standalone: true}"></textarea>
+                  <ckeditor [editor]="Editor"   value=""  [(ngModel)]="comment" [ngModelOptions]="{standalone: true}" class = "textEditor"></ckeditor>
+                  
               </div> 
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
-                </div>
               </div>
-            
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" (click)="newComment(this.articleTitle,this.author,this.comment,this.keepconnectionService.authToken)">Save</button>
+          <button type="button" class="btn btn-outline-dark" (click)="newComment(this.articleTitle,this.author,this.comment,this.keepconnectionService.authToken);modal.dismiss('Cross click')">envoyer</button>
         </div>
       </ng-template>
       
-      <button *ngIf="keepconnectionService.authRole=='admin' && keepconnectionService.activatedAccount == true"  class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
+      
       
       <hr>
       
@@ -120,7 +140,7 @@
       <div class="col-md-8">
 
         <h1 class="my-4">Oniromancie
-          <small>tech vintage, FanFictions,Poésies,chroniques....</small>
+          <small>tech vintage, fanfictions, chroniques....</small>
         </h1>
 
         <!-- Blog Post -->
@@ -129,19 +149,35 @@
           <img class="card-img-top" [src]="book.articles_image" alt="Card image cap">
           <div class="card-body">
             <h2 class="card-title">{{book.articles_name}}</h2>
-            <p class="card-text">{{book.articles_body}}</p>
-            <button *ngIf="keepconnectionService.authRole != null && keepconnectionService.activatedAccount == true"   href="#" class="btn btn-primary" (click)="openComment(newContent);defineArticle(book.articles_name)">ajouter un commentaire</button>
-            <button *ngIf="keepconnectionService.authRole == 'admin' && keepconnectionService.activatedAccount == true"   href="#" class="btn btn-primary" (click)="openUpdate(updatecontent);defineArticleUpdate(book.articles_name, book.articles_body,book.articles_id)">editer article</button>
-            <button *ngIf="keepconnectionService.authRole == 'admin' && keepconnectionService.activatedAccount == true"   href="#" class="btn btn-primary" (click)="confirmDelete(deletecontent,book.articles_id)">supprimer article</button>
+            <p class="card-text" [innerHTML]= "book.articles_body">{{book.articles_body}}</p>
+            <button *ngIf="keepconnectionService.authRole != null && keepconnectionService.activatedAccount == true"   href="#" class="btn btn-outline-dark" (click)="openComment(newContent);defineArticle(book.articles_name)">ajouter un commentaire</button>
+            <button *ngIf="keepconnectionService.authRole == 'admin' && keepconnectionService.activatedAccount == true"   href="#" class="btn btn-outline-dark" (click)="openUpdate(updatecontent);defineArticleUpdate(book.articles_name, book.articles_body,book.articles_id)">editer article</button>
+            <button *ngIf="keepconnectionService.authRole == 'admin' && keepconnectionService.activatedAccount == true"   href="#" class="btn btn-outline-dark" (click)="confirmDelete(deletecontent,book.articles_id)">supprimer article</button>
           </div>
           <div class="card-footer text-muted">
-            {{book.articles_date}}
+            {{book.articles_date | date : 'd MMM y'}}
           </div>
-          <div *ngFor= "let comment of commentsValue">
-            <div>
-              {{comment.comments_body | filterpipe: book.articles_id: comment.comments_articles}}
+          <div class="row">
+            <div class="col-12 commentaires">
+                <div *ngFor="let comment of commentsValue">
+                <div *ngIf="book.articles_id == comment.comments_articles" class="card card-white post">
+                    <div class="post-heading">
+                        <div class="float-left meta">
+                            <div class="title h5">
+                                <a href="#"><b>{{comment.comments_author |  filterpipe: book.articles_id: comment.comments_articles}}</b></a>
+                                
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="post-description"> 
+                        <p>{{comment.comments_body | filterpipe: book.articles_id: comment.comments_articles}}</p>
+    
+                    </div>
+                </div>
+              </div> 
             </div>
-          </div>
+            
+        </div>
         </div>
       </div>
         
@@ -165,26 +201,26 @@
               <div class="col-lg-6">
                 <ul class="list-unstyled mb-0">
                   <li>
-                    <button type="button" class="btn btn-primary" (click)="articleFilter('fanfiction')">fanfictions</button>
+                    <button type="button" class="btn btn-outline-dark" (click)="articleFilter('fanfiction')">fanfictions</button>
                   </li>
                   <li>
-                    <button type="button" class="btn btn-primary" (click)="articleFilter('tech')">tech</button>
+                    <button type="button" class="btn btn-outline-dark" (click)="articleFilter('tech')">tech</button>
                   </li>
                   <li>
-                    <button type="button" class="btn btn-primary" (click)="articleFilter('poesie')">poésies</button>
+                    <button type="button" class="btn btn-outline-dark" (click)="articleFilter('poesie')">poésies</button>
                   </li>
                 </ul>
               </div>
               <div class="col-lg-6">
                 <ul class="list-unstyled mb-0">
                   <li>
-                    <button type="button" class="btn btn-primary" (click)="articleFilter('nouvelle')">nouvelles</button>
+                    <button type="button" class="btn btn-outline-dark" (click)="articleFilter('nouvelle')">nouvelles</button>
                   </li>
                   <li>
-                    <button type="button" class="btn btn-primary" (click)="articleFilter('gestation')">gestation</button>
+                    <button type="button" class="btn btn-outline-dark" (click)="articleFilter('gestation')">gestation</button>
                   </li>
                   <li>
-                    <button type="button" class="btn btn-primary" (click)="articleFilter('chronique')">chroniques</button>
+                    <button type="button" class="btn btn-outline-dark" (click)="articleFilter('chronique')">chroniques</button>
                     
                   </li>
                 </ul>
@@ -193,6 +229,7 @@
           </div>
         </div>
         <!-- Side Widget -->
+        <button *ngIf="keepconnectionService.authRole=='admin' && keepconnectionService.activatedAccount == true"  class="btn btn-lg btn-outline-primary" (click)="open(content)">Nouvel article</button>
         <div class="card my-4">
           <div *ngIf="alert" class="alert alert-danger" role="alert">
             {{errorMessage}}
@@ -200,41 +237,41 @@
           <h5 class="card-header">Connexion</h5>
           <div class="card-body">
             <div *ngIf= "keepconnectionService.connexion == 0">
-              <button type="button" class="btn btn-primary btn-lg" (click) = loginShow()>login</button>
-              <button type="button" class="btn btn-primary btn-lg" (click) = registerShow()>register</button>
+              <button type="button" class="btn btn-outline-dark btn-lg" (click) = loginShow()>Connexion</button>
+              <button type="button" class="btn btn-outline-dark btn-lg" (click) = registerShow()>Inscription</button>
             </div>
             <form *ngIf="keepconnectionService.connexion == 2" (ngSubmit)="register(this.email,this.password);heroForm.reset()" #heroForm="ngForm" ngNativeValidate>
               <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
+                <label for="exampleInputEmail1">Adresse email</label>
                 <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" #emailValid="ngModel" required email>
             </div>
               <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
+                <label for="exampleInputPassword1">Mot de passe</label>
               </div>
                
                 <input type="password" class="form-control" id="Password1" pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$" #uname="ngModel" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" required>
               
               <small>le mot de passe doit faire 8 caractères minimum, comporter une majuscule, une minuscule et un caractère special</small>
-              <button type="submit" class = "btn btn-primary" >register</button>
+              <button type="submit" class = "btn btn-outline-dark" >register</button>
             </form>
             <form *ngIf="keepconnectionService.connexion == 1" (ngSubmit)="myFunc(keepconnectionService.email,this.password);loginForm.reset()" #loginForm="ngForm" ngNativeValidate>
               <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <div *ngIf="wrongEmail == true">wrong email</div>
+                <label for="exampleInputEmail1">Adresse email</label>
+                <div *ngIf="wrongEmail == true">email inexistant</div>
                 <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="keepconnectionService.email" [ngModelOptions]="{standalone: true}" required email>
               </div>
               <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <div *ngIf="wrongPassword == true ">wrong password</div>
+                <label for="exampleInputPassword1">Mot de passe</label>
+                <div *ngIf="wrongPassword == true ">Mot de passe erroné</div>
                 <input type="password" class="form-control" id="exampleInputPassword1" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"  pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$" required>
               </div>
-              <button type="submit" class="btn btn-primary" >login</button>
+              <button type="submit" class="btn btn-outline-dark" >Connexion</button>
             </form>
             <form *ngIf="keepconnectionService.connexion == 3">
               <div class="form-group">
                
                 {{keepconnectionService.email}} 
-                <button *ngIf="keepconnectionService.authRole != null && keepconnectionService.activatedAccount == true" type="button" class="btn btn-primary" (click)="disconnect()">deconnexion</button>
+                <button *ngIf="keepconnectionService.authRole != null && keepconnectionService.activatedAccount == true" type="button" class="btn btn-outline-dark" (click)="disconnect()">deconnexion</button>
                </div>
                <div [hidden] = "this.keepconnectionService.activatedAccount == true">
                  votre compte n'est pas encore activé
