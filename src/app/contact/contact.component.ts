@@ -18,6 +18,11 @@ private contact = {
   message: null
 }
 sendContact(name,email,message) {
-var s = this.usersService.sendContact(name,email,message)
-}
+this.usersService.sendContact(name,email,message)
+  this.contact.name = null
+  this.contact.email = null
+  this.contact.message = null
+  alert("votre message a bien été envoyé, merci")
+
+  }
 }
