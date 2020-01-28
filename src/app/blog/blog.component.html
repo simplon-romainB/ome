@@ -146,7 +146,7 @@
         <!-- Blog Post -->
       <div *ngFor="let book of pageOfItems">
         <div  class="card mb-4">
-          <img class="card-img-top" [src]="book.articles_image" alt="Card image cap">
+          <img class="card-img-top articleImage" [src]="book.articles_image" alt="Card image cap">
           <div class="card-body">
             <h2 class="card-title">{{book.articles_name}}</h2>
             <p class="card-text" [innerHTML]= "book.articles_body">{{book.articles_body}}</p>

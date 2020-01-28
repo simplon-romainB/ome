@@ -17,7 +17,7 @@ private contact = {
   email: null,
   message: null
 }
-sendContact(name,email,message) {
+sendContact(name: String,email: String,message: String) {
 this.usersService.sendContact(name,email,message)
   this.contact.name = null
   this.contact.email = null

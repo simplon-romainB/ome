@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpClientModule,HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import {Observable} from 'rxjs';
 import {formatDate} from '@angular/common';
 
 
@@ -14,7 +12,7 @@ export class UsersService {
 
   constructor(public http: HttpClient) { }
 
-register(email,password) {
+register(email: String,password: String) {
   const optionRequete = {
     headers: new HttpHeaders({ 
       'Access-Control-Allow-Origin':'*'
@@ -28,7 +26,7 @@ this.http.post("https://peaceful-mountain-88307.herokuapp.com/db", { email: emai
   });
 }
 
-login(email,password) {
+login(email: String,password: String) {
   const optionRequete = {
     headers: new HttpHeaders({ 
       'Access-Control-Allow-Origin':'*'
@@ -59,7 +57,7 @@ initComments() {
   
   }
 }
-newArticle(titre,article,token, categorie, image) {
+newArticle(titre: String,article: String,token: String, categorie: String, image: String) {
   
   let date = formatDate(new Date(), 'yyyy/MM/dd', 'en');
   const httpOptions = {
@@ -74,7 +72,7 @@ newArticle(titre,article,token, categorie, image) {
 
 }
 
-updateArticle(titre,article,token,id) {
+updateArticle(titre: String,article: String,token: String,id: Number) {
   const httpOptions = {
     headers: new HttpHeaders({
       'Access-Control-Allow-Origin':'*',
@@ -86,7 +84,7 @@ updateArticle(titre,article,token,id) {
     return this.http.put("https://peaceful-mountain-88307.herokuapp.com/updatearticles", { titre: titre, article: article, id: id},httpOptions)
    
 }
-newComment(article,author,comment,token) {
+newComment(article: String,author: String,comment: String,token: String) {
 
   let date = formatDate(new Date(), 'yyyy/MM/dd', 'en');
   const httpOptions = {
@@ -99,7 +97,7 @@ newComment(article,author,comment,token) {
     return this.http.post("https://peaceful-mountain-88307.herokuapp.com/comments", { author: author,comment: comment, article: article, date: date},httpOptions).subscribe(r=>{})
 }
 
-deleteArticle(id,token) {
+deleteArticle(id: Number,token: String) {
   
   const httpOptions = {
     headers: new HttpHeaders({
@@ -112,7 +110,7 @@ deleteArticle(id,token) {
   }
   return this.http.post("https://peaceful-mountain-88307.herokuapp.com/deletearticles",{id:id}, httpOptions)
 }
-sendContact(name,email,message) {
+sendContact(name: String,email: String,message: String) {
   const httpOptions = {
     headers: new HttpHeaders({
       'Access-Control-Allow-Origin':'*',
