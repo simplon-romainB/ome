@@ -34,7 +34,7 @@ export class BlogComponent implements OnInit {
   private itemsFilter: any[];
   private idCurrent: number;
   private articleEdit: string;
-  private titleEdit: String;
+  private titleEdit: string;
   private model: any;
   private image: string;
 
@@ -107,7 +107,7 @@ export class BlogComponent implements OnInit {
     });
   }
 
-  deleteArticle(id: Number,token: string) {
+  deleteArticle(id: number,token: string) {
     this.usersService.deleteArticle(id,token);
     const s = this.usersService.deleteArticle(id,token).subscribe(v =>
       this.Init())
