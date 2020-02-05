@@ -1,4 +1,25 @@
 # Ome
+Projet Fullstack(NodeJS/express) qui a pour but à la fois de me présenter (ainsi que mes projets) et de montrer les technologies et méthodes que je maitrise.
+
+coté backEnd:
+
+-système d'authentification avec tokens
+-Cryptage des mots de passe dans la base de données
+-gestion des rôles
+-mini CMS(création de nouveaux articles, commentaires, mise à jour et suppréssion)
+
+coté FrontEnd:
+
+-Utilisation des routes
+-Utilisation des animations Angular
+-Custom pipes et injection de dépendances
+-Filtres et organisation des articles
+-requetes HTTP (observables)
+
+DevOps:
+
+-mise en place de tests unitaires, d'integration et e2e ( en cours)
+-integration continue avec Jenkins(automatisation des tests lors d'un push github)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.19.
 
