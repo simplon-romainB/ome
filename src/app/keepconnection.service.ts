@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class KeepconnectionService {
-  public email: String;
-  public authToken: String;
-  public authRole: String;
-  public activatedAccount: String;
-  public connexion: Number = 0;
+  public email: string;
+  public authToken: string;
+  public authRole: string;
+  public activatedAccount: string;
+  public connexion: number = 0;
   constructor() { }
 }

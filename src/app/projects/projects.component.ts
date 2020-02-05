@@ -11,5 +11,5 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit() {
   }
-  images = ["/assets/gameoflife.png", "/assets/planete-mars.jpg", "/assets/raw.jfif","/assets/asteroids.jpg"]
+  images = ['/assets/gameoflife.png', '/assets/planete-mars.jpg', '/assets/raw.jfif', '/assets/asteroids.jpg']
 }

@@ -5,9 +5,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterpipePipe implements PipeTransform {
 
-  transform(value,article_id: Number,foreignkey:Number) {
-    if (article_id == foreignkey) {
-      return value
+  transform(value, article_id: number, foreignkey: number) {
+    if (article_id === foreignkey) {
+      return value;
     }
   }
 

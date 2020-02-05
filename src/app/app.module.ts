@@ -4,7 +4,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UsersService } from "./users.service";
+import { UsersService } from './users.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { JwPaginationComponent } from 'jw-angular-pagination';
@@ -40,10 +40,10 @@ import { KeepconnectionService } from './keepconnection.service';
     BrowserAnimationsModule,
     RouterModule.forRoot([
       {path : '' , redirectTo : '/home' , pathMatch:'full' },  
-      {path:"blog", component: BlogComponent, data: {animation : "blogpage"} },
-      {path: "home", component: HomeComponent, data: {animation : "homepage"}},
-      {path: "projects", component: ProjectsComponent, data: {animation: "projectspage"}},
-      {path: "contact", component: ContactComponent, data: {animation: "contactpage"}}
+      {path:'blog', component: BlogComponent, data: {animation : 'blogpage'} },
+      {path: 'home', component: HomeComponent, data: {animation : 'homepage'}},
+      {path: 'projects', component: ProjectsComponent, data: {animation: 'projectspage'}},
+      {path: 'contact', component: ContactComponent, data: {animation: 'contactpage'}}
     ])
   ],
   providers: [ UsersService, KeepconnectionService],
