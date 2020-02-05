@@ -18,6 +18,7 @@ import { HomeComponent } from './home/home.component';
 import { FilterpipePipe } from './filterpipe.pipe';
 import { ContactComponent } from './contact/contact.component';
 import { KeepconnectionService } from './keepconnection.service';
+import { Contact } from './contact.model';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import { KeepconnectionService } from './keepconnection.service';
       {path: 'contact', component: ContactComponent, data: {animation: 'contactpage'}}
     ])
   ],
-  providers: [ UsersService, KeepconnectionService],
+  providers: [ UsersService, KeepconnectionService, Contact],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
