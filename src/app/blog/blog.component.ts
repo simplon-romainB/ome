@@ -14,13 +14,17 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
   styleUrls: ['./blog.component.styl']
 })
 export class BlogComponent implements OnInit {
+  private articles: Article[];
 
   constructor(private keepconnectionService: KeepconnectionService,
               private usersService: UsersService,
               private modalService: NgbModal,
               private router: Router,
               private activeRoute: ActivatedRoute,
-              private articles: Article[]) { }
+              private article: Article
+              ) {
+                this.articles = new Array<Article>();
+               }
   private articlesValue;
   private closeResult: string;
   private email: string;
@@ -28,7 +32,6 @@ export class BlogComponent implements OnInit {
   private authToken: string;
   private authRole: string = null;
   private titre: string;
-  private article: string;
   private author: string;
   private comment: string;
   private articleTitle: string;
