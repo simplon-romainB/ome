@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {formatDate} from '@angular/common';
 
+import { map } from 'rxjs/operators';
+
 
 
 
@@ -42,7 +44,9 @@ initArticles() {
       'Access-Control-Allow-Origin': '*'
     })
   };
-  {return this.http.get('https://peaceful-mountain-88307.herokuapp.com/articles', optionRequete);
+  {return this.http.get('https://peaceful-mountain-88307.herokuapp.com/articles', optionRequete).pipe(
+    map(v => { return JSON.stringify(v);
+    }));
   }
 }
 initComments() {

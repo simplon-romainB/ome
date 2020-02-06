@@ -3,6 +3,8 @@ import { UsersService } from '../users.service';
 import { KeepconnectionService } from '../keepconnection.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {Router, ActivatedRoute} from '@angular/router';
+import { Article } from '../article.model';
+
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
@@ -17,7 +19,8 @@ export class BlogComponent implements OnInit {
               private usersService: UsersService,
               private modalService: NgbModal,
               private router: Router,
-              private activeRoute: ActivatedRoute) { }
+              private activeRoute: ActivatedRoute,
+              private articles: Article[]) { }
   private articlesValue;
   private closeResult: string;
   private email: string;
@@ -50,16 +53,15 @@ export class BlogComponent implements OnInit {
 
 
   Init() {
-    const displayArticles = this.usersService.initArticles().subscribe(v => {this.articlesValue = v;
-                                                                             this.commentsValue = v;
-                                                                             this.items = Array(this.articlesValue.length).fill(0)
+    const displayArticles = this.usersService.initArticles().subscribe(v => {this.articles = JSON.parse(v);
+                                                                             this.items = Array(this.articles.length).fill(0)
                                                                              .map((x, i) => (
-                                                                               { id: (i + 1), articles_name: v[i].articles_name,
-                                                                                              articles_body: v[i].articles_body,
-                                                                                              articles_date: v[i].articles_date,
-                                                                                              articles_id: v[i].articles_id,
-                                                                                              articles_categorie: v[i].articles_categorie,
-                                                                                              articles_image: v[i].articles_image
+                                                                               { id: (i + 1), articles_name: this.articles[i].articles_name,
+                                                                                              articles_body: this.articles[i].articles_body,
+                                                                                              articles_date: this.articles[i].articles_date,
+                                                                                              articles_id: this.articles[i].articles_id,
+                                                                                              articles_categorie: this.articles[i].articles_categorie,
+                                                                                              articles_image: this.articles[i].articles_image
                                                                                 }));
                                                                              this.itemsFilter = this.items;
     });
