@@ -8,14 +8,14 @@ import { Contact } from '../contact.model';
   styleUrls: ['./contact.component.styl']
 })
 export class ContactComponent {
- 
+
 
   constructor(private usersService: UsersService, private contact: Contact) { }
 
 
 
 sendContact(name: string, email: string, message: string) {
-this.usersService.sendContact(name,email,message);
+  this.usersService.sendContact(name, email, message);
   this.contact.name = null;
   this.contact.email = null;
   this.contact.message = null;

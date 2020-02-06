@@ -10,9 +10,9 @@ export class ImagesdownloadService {
 
   constructor(private http: HttpClient) {}
 
-  downloadFile(): Observable<Blob>{		
-		return this.http.get('http://localhost:8080/employees/download', { responseType: 'blob' });
+  downloadFile(): Observable<Blob> {
+    return this.http.get('http://localhost:8080/employees/download', { responseType: 'blob' });
    }
-   
+
 }
 

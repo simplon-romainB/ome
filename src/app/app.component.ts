@@ -11,12 +11,13 @@ import { ImagesdownloadService} from './imagesdownload.service';
   animations: [ slideInAnimation ]
 })
 export class AppComponent {
+  private animation = 'animation';
   constructor(private router: Router, private imagesdownloadService: ImagesdownloadService) {}
 
   prepareRoute(outlet: RouterOutlet) {
-    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
-  } 
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData[this.animation];
+  }
 }
 
- 
+
 

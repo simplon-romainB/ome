@@ -8,6 +8,6 @@ export class KeepconnectionService {
   public authToken: string;
   public authRole: string;
   public activatedAccount: string;
-  public connexion: number = 0;
+  public connexion = 0;
   constructor() { }
 }

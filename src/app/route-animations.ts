@@ -7,13 +7,13 @@ import {
     group
  } from '@angular/animations';
  export const slideInAnimation =
- trigger('routeAnimations', [
-      transition('* => *', [
+trigger('routeAnimations', [
+     transition('* => *', [
            query(':enter, :leave',
                 style({ position: 'fixed', width: '100%' }),
-                { optional: true }),       
+                { optional: true }),
            group([
-                query(':enter',[
+                query(':enter', [
                     style({ transform: 'translateY(100vh)' }),
                     animate('0.5s ease-in-out',
                     style({ transform: 'translateY(0vh)' }))
@@ -24,6 +24,6 @@ import {
                     style({ opacity: 0, transform: 'translateY(-100vh)' }))
                 ], { optional: true }),
            ])
-      ]) 
+      ])
 ]);
 

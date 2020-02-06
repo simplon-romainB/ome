@@ -40,8 +40,8 @@ import { Contact } from './contact.model';
     FontAwesomeModule,
     BrowserAnimationsModule,
     RouterModule.forRoot([
-      {path : '' , redirectTo : '/home' , pathMatch:'full' },  
-      {path:'blog', component: BlogComponent, data: {animation : 'blogpage'} },
+      {path : '' , redirectTo : '/home' , pathMatch: 'full' },
+      {path: 'blog', component: BlogComponent, data: {animation : 'blogpage'} },
       {path: 'home', component: HomeComponent, data: {animation : 'homepage'}},
       {path: 'projects', component: ProjectsComponent, data: {animation: 'projectspage'}},
       {path: 'contact', component: ContactComponent, data: {animation: 'contactpage'}}
