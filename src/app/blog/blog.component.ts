@@ -4,6 +4,8 @@ import { KeepconnectionService } from '../keepconnection.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {Router, ActivatedRoute} from '@angular/router';
 import { Article } from '../article.model';
+import { Comment } from '../comment.model';
+
 
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -15,6 +17,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 })
 export class BlogComponent implements OnInit {
   private articles: Article[];
+  private comments: Comment[];
 
   constructor(private keepconnectionService: KeepconnectionService,
               private usersService: UsersService,
@@ -24,6 +27,7 @@ export class BlogComponent implements OnInit {
               private article: Article
               ) {
                 this.articles = new Array<Article>();
+                this.comments = new Array<Comment>();
                }
   private articlesValue;
   private closeResult: string;
@@ -35,7 +39,6 @@ export class BlogComponent implements OnInit {
   private author: string;
   private comment: string;
   private articleTitle: string;
-  private commentsValue: object;
   private items: Array<any>;
   private pageOfItems: Array<any>;
   private activatedAccount: string;
@@ -59,16 +62,16 @@ export class BlogComponent implements OnInit {
     const displayArticles = this.usersService.initArticles().subscribe(v => {this.articles = JSON.parse(v);
                                                                              this.items = Array(this.articles.length).fill(0)
                                                                              .map((x, i) => (
-                                                                               { id: (i + 1), articles_name: this.articles[i].articles_name,
-                                                                                              articles_body: this.articles[i].articles_body,
-                                                                                              articles_date: this.articles[i].articles_date,
-                                                                                              articles_id: this.articles[i].articles_id,
-                                                                                              articles_categorie: this.articles[i].articles_categorie,
-                                                                                              articles_image: this.articles[i].articles_image
+                                                                               { id: (i + 1), articlesName: this.articles[i].articlesName,
+                                                                                              articlesBody: this.articles[i].articlesBody,
+                                                                                              articlesDate: this.articles[i].articlesDate,
+                                                                                              articlesId: this.articles[i].articlesId,
+                                                                                              articlesCategorie: this.articles[i].articlesCategorie,
+                                                                                              articlesImage: this.articles[i].articlesImage
                                                                                 }));
                                                                              this.itemsFilter = this.items;
     });
-    const s = this.usersService.initComments().subscribe(v => this.commentsValue = v);
+    const s = this.usersService.initComments().subscribe(v => this.comments = JSON.parse(v));
   }
 
   onChangePage(pageOfItems: Array<any>) {
@@ -130,7 +133,7 @@ disconnect() {
   this.keepconnectionService.activatedAccount = null;
 }
 
-myFunc(email: string, password: string) {
+login(email: string, password: string) {
   this.usersService.login(email, password);
   const s = this.usersService.login(email, password).subscribe(v => {
       if (v !== null && v !== 'wrong password') {
@@ -151,7 +154,7 @@ myFunc(email: string, password: string) {
 }
 
 articleFilter(categorie: string) {
- this.items = this.itemsFilter.filter(v => v.articles_categorie.toString() === categorie);
+ this.items = this.itemsFilter.filter(v => v.articlesCategorie.toString() === categorie);
 }
 register(email: string, password: string) {
   this.usersService.register(email, password);

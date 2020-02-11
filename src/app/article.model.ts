@@ -1,8 +1,8 @@
 export class Article {
-    articles_name: string;
-    articles_body: string;
-    articles_date: any;
-    articles_id: number;
-    articles_categorie: string;
-    articles_image: string;
+    articlesName: string;
+    articlesBody: string;
+    articlesDate: any;
+    articlesId: number;
+    articlesCategorie: string;
+    articlesImage: string;
 }
