@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {formatDate} from '@angular/common';
 
+import { map } from 'rxjs/operators';
+
 
 
 
@@ -42,8 +44,9 @@ initArticles() {
       'Access-Control-Allow-Origin': '*'
     })
   };
-  {return this.http.get('https://peaceful-mountain-88307.herokuapp.com/articles', optionRequete);
-  }
+  return this.http.get('https://peaceful-mountain-88307.herokuapp.com/articles', optionRequete).pipe(
+    map(v =>  JSON.stringify(v)));
+
 }
 initComments() {
   const optionRequete = {
@@ -51,8 +54,8 @@ initComments() {
       'Access-Control-Allow-Origin': '*'
     })
   };
-  {return this.http.get('https://peaceful-mountain-88307.herokuapp.com/comments', optionRequete);
-  }
+  return this.http.get('https://peaceful-mountain-88307.herokuapp.com/comments', optionRequete).pipe(
+    map(v =>  JSON.stringify(v)));
 }
 newArticle(titre: string, article: string, token: string, categorie: string, image: string) {
   const date = formatDate(new Date(), 'yyyy/MM/dd', 'en');

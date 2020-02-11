@@ -3,6 +3,10 @@ import { UsersService } from '../users.service';
 import { KeepconnectionService } from '../keepconnection.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {Router, ActivatedRoute} from '@angular/router';
+import { Article } from '../article.model';
+import { Comment } from '../comment.model';
+
+
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
@@ -12,12 +16,19 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
   styleUrls: ['./blog.component.styl']
 })
 export class BlogComponent implements OnInit {
+  private articles: Article[];
+  private comments: Comment[];
 
   constructor(private keepconnectionService: KeepconnectionService,
               private usersService: UsersService,
               private modalService: NgbModal,
               private router: Router,
-              private activeRoute: ActivatedRoute) { }
+              private activeRoute: ActivatedRoute,
+              private article: Article
+              ) {
+                this.articles = new Array<Article>();
+                this.comments = new Array<Comment>();
+               }
   private articlesValue;
   private closeResult: string;
   private email: string;
@@ -25,11 +36,9 @@ export class BlogComponent implements OnInit {
   private authToken: string;
   private authRole: string = null;
   private titre: string;
-  private article: string;
   private author: string;
   private comment: string;
   private articleTitle: string;
-  private commentsValue: object;
   private items: Array<any>;
   private pageOfItems: Array<any>;
   private activatedAccount: string;
@@ -50,20 +59,19 @@ export class BlogComponent implements OnInit {
 
 
   Init() {
-    const displayArticles = this.usersService.initArticles().subscribe(v => {this.articlesValue = v;
-                                                                             this.commentsValue = v;
-                                                                             this.items = Array(this.articlesValue.length).fill(0)
+    const displayArticles = this.usersService.initArticles().subscribe(v => {this.articles = JSON.parse(v);
+                                                                             this.items = Array(this.articles.length).fill(0)
                                                                              .map((x, i) => (
-                                                                               { id: (i + 1), articles_name: v[i].articles_name,
-                                                                                              articles_body: v[i].articles_body,
-                                                                                              articles_date: v[i].articles_date,
-                                                                                              articles_id: v[i].articles_id,
-                                                                                              articles_categorie: v[i].articles_categorie,
-                                                                                              articles_image: v[i].articles_image
+                                                                               { id: (i + 1), articlesName: this.articles[i].articlesName,
+                                                                                              articlesBody: this.articles[i].articlesBody,
+                                                                                              articlesDate: this.articles[i].articlesDate,
+                                                                                              articlesId: this.articles[i].articlesId,
+                                                                                              articlesCategorie: this.articles[i].articlesCategorie,
+                                                                                              articlesImage: this.articles[i].articlesImage
                                                                                 }));
                                                                              this.itemsFilter = this.items;
     });
-    const s = this.usersService.initComments().subscribe(v => this.commentsValue = v);
+    const s = this.usersService.initComments().subscribe(v => this.comments = JSON.parse(v));
   }
 
   onChangePage(pageOfItems: Array<any>) {
@@ -125,7 +133,7 @@ disconnect() {
   this.keepconnectionService.activatedAccount = null;
 }
 
-myFunc(email: string, password: string) {
+login(email: string, password: string) {
   this.usersService.login(email, password);
   const s = this.usersService.login(email, password).subscribe(v => {
       if (v !== null && v !== 'wrong password') {
@@ -146,7 +154,7 @@ myFunc(email: string, password: string) {
 }
 
 articleFilter(categorie: string) {
- this.items = this.itemsFilter.filter(v => v.articles_categorie.toString() === categorie);
+ this.items = this.itemsFilter.filter(v => v.articlesCategorie.toString() === categorie);
 }
 register(email: string, password: string) {
   this.usersService.register(email, password);
