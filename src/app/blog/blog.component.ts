@@ -62,12 +62,12 @@ export class BlogComponent implements OnInit {
     const displayArticles = this.usersService.initArticles().subscribe(v => {this.articles = JSON.parse(v);
                                                                              this.items = Array(this.articles.length).fill(0)
                                                                              .map((x, i) => (
-                                                                               { id: (i + 1), articlesName: this.articles[i].articlesName,
-                                                                                              articlesBody: this.articles[i].articlesBody,
-                                                                                              articlesDate: this.articles[i].articlesDate,
-                                                                                              articlesId: this.articles[i].articlesId,
-                                                                                              articlesCategorie: this.articles[i].articlesCategorie,
-                                                                                              articlesImage: this.articles[i].articlesImage
+                                                                               { id: (i + 1), articlesName: this.articles[i].articles_name,
+                                                                                              articlesBody: this.articles[i].articles_body,
+                                                                                              articlesDate: this.articles[i].articles_date,
+                                                                                              articlesId: this.articles[i].articles_id,
+                                                                                              articlesCategorie: this.articles[i].articles_categorie,
+                                                                                              articlesImage: this.articles[i].articles_image
                                                                                 }));
                                                                              this.itemsFilter = this.items;
     });

@@ -16,11 +16,11 @@ describe('UsersService', () => {
   beforeEach(() => {TestBed.configureTestingModule({
     imports: [HttpClientTestingModule],
     providers: [UsersService]
-  })
+  });
   
-  injector = getTestBed();
-  service = injector.get(UsersService);
-  httpMock = injector.get(HttpTestingController);
+    injector = getTestBed();
+    service = injector.get(UsersService);
+    httpMock = injector.get(HttpTestingController);
 });
 
   it('should return articles', () => {
@@ -32,9 +32,15 @@ describe('UsersService', () => {
       expect(Object.keys(articles).length).toBe(2);
       expect(JSON.stringify(articles)).toEqual(JSON.stringify(dummyArticles));
     });
-    const req = httpMock.expectOne("https://peaceful-mountain-88307.herokuapp.com/articles");
-    expect(req.request.method).toBe("GET");
+    const req = httpMock.expectOne('https://peaceful-mountain-88307.herokuapp.com/articles');
+    expect(req.request.method).toBe('GET');
     req.flush(dummyArticles);
+  });
+
+  it('should return comments', () => {
+    const dummyComments = [
+      { author}
+    ]
   });
 
   afterEach(() => {

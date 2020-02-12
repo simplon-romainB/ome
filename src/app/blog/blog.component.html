@@ -148,29 +148,29 @@
         <div  class="card mb-4">
           <img class="card-img-top articleImage" [src]="book.articles_image" alt="Card image cap">
           <div class="card-body">
-            <h2 class="card-title">{{article.articlesName}}</h2>
-            <p class="card-text" [innerHTML]= "book.articles_body">{{book.articlesBody}}</p>
+            <h2 class="card-title">{{article.article_name}}</h2>
+            <p class="card-text" [innerHTML]= "book.articles_body">{{article.article_body}}</p>
             <button *ngIf="keepconnectionService.authRole != null && keepconnectionService.activatedAccount == true"   href="#" class="btn btn-outline-dark" (click)="openComment(newContent);defineArticle(book.articles_name)">ajouter un commentaire</button>
             <button *ngIf="keepconnectionService.authRole == 'admin' && keepconnectionService.activatedAccount == true"   href="#" class="btn btn-outline-dark" (click)="openUpdate(updatecontent);defineArticleUpdate(book.articles_name, book.articles_body,book.articles_id)">editer article</button>
             <button *ngIf="keepconnectionService.authRole == 'admin' && keepconnectionService.activatedAccount == true"   href="#" class="btn btn-outline-dark" (click)="confirmDelete(deletecontent,book.articles_id)">supprimer article</button>
           </div>
           <div class="card-footer text-muted">
-            {{article.articlesDate | date : 'd MMM y'}}
+            {{article.article-date | date : 'd MMM y'}}
           </div>
           <div class="row">
             <div class="col-12 commentaires">
-                <div *ngFor="let comment of commentsValue">
+                <div *ngFor="let comment of comments">
                 <div *ngIf="book.articles_id == comment.comments_articles" class="card card-white post">
                     <div class="post-heading">
                         <div class="float-left meta">
                             <div class="title h5">
-                                <a href="#"><b>{{article.commentAuthor |  filterpipe: article.articlesId: comment.commentArticles}}</b></a>
+                                <a href="#"><b>{{comment.comment_author |  filterpipe: article.articles_id: comment.comment_articles}}</b></a>
                                 
                             </div>
                         </div>
                     </div> 
                     <div class="post-description"> 
-                        <p>{{comment.commentBody | filterpipe: article.articlesId: comment.commentArticles}}</p>
+                        <p>{{comment.comment_body | filterpipe: article.articles_id: comment.comment_articles}}</p>
     
                     </div>
                 </div>

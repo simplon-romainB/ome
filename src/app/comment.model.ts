@@ -1,5 +1,5 @@
 export class Comment {
-    commentId: number;
-    commentAuthor: string;
-    commentBody: string;
+    comments_articles: number;
+    comments_author: string;
+    comment_body: string;
 }
