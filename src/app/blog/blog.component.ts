@@ -59,7 +59,8 @@ export class BlogComponent implements OnInit {
 
 
   Init() {
-    const displayArticles = this.usersService.initArticles().subscribe(v => {this.articles = JSON.parse(v);
+    const displayArticles = this.usersService.initArticles().subscribe(v => {const c = JSON.stringify(v);
+                                                                             this.articles = JSON.parse(c);
                                                                              this.items = Array(this.articles.length).fill(0)
                                                                              .map((x, i) => (
                                                                                { id: (i + 1), articlesName: this.articles[i].articles_name,
@@ -71,7 +72,9 @@ export class BlogComponent implements OnInit {
                                                                                 }));
                                                                              this.itemsFilter = this.items;
     });
-    const s = this.usersService.initComments().subscribe(v => this.comments = JSON.parse(v));
+    const s = this.usersService.initComments().subscribe(v => { const c = JSON.stringify(v);
+                                                                this.comments = JSON.parse(c);
+                                                              });
   }
 
   onChangePage(pageOfItems: Array<any>) {

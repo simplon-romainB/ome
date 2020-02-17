@@ -15,18 +15,10 @@ export class UsersService {
   constructor(public http: HttpClient) { }
 
 register(email: string, password: string) {
-  const optionRequete = {
-    headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': '*'
-    })
-  };
-  this.http.post('https://peaceful-mountain-88307.herokuapp.com/db', { email, password}, optionRequete).subscribe(() => {
-  console.log('Enregistrement terminé !');
-  },
-(error) => {
-  console.log('Erreur ! : ' + error);
-  });
+  return this.http.post('https://peaceful-mountain-88307.herokuapp.com/db', { email, password});
 }
+
+
 
 login(email: string, password: string) {
   const optionRequete = {
@@ -44,9 +36,7 @@ initArticles() {
       'Access-Control-Allow-Origin': '*'
     })
   };
-  return this.http.get('https://peaceful-mountain-88307.herokuapp.com/articles', optionRequete).pipe(
-    map(v =>  JSON.stringify(v)));
-
+  return this.http.get('https://peaceful-mountain-88307.herokuapp.com/articles', optionRequete);
 }
 initComments() {
   const optionRequete = {
@@ -54,8 +44,7 @@ initComments() {
       'Access-Control-Allow-Origin': '*'
     })
   };
-  return this.http.get('https://peaceful-mountain-88307.herokuapp.com/comments', optionRequete).pipe(
-    map(v =>  JSON.stringify(v)));
+  return this.http.get('https://peaceful-mountain-88307.herokuapp.com/comments', optionRequete);
 }
 newArticle(titre: string, article: string, token: string, categorie: string, image: string) {
   const date = formatDate(new Date(), 'yyyy/MM/dd', 'en');
