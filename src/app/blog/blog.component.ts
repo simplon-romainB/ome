@@ -176,7 +176,7 @@ newArticle(titre: string, article: string, authToken: string, categorie: string,
   this.usersService.newArticle(titre, article, authToken, categorie, image);
   const s = this.usersService.newArticle(titre, article, authToken, categorie, image).subscribe(v => this.Init());
 }
-newComment(article: string, author: string, comment: string, token: string) {
+newComment(article: number, author: string, comment: string, token: string) {
   this.usersService.newComment(article, author, comment, token);
 }
 updateArticle(title: string, body: string, token: string, id: number) {

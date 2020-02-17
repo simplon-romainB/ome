@@ -21,38 +21,20 @@ register(email: string, password: string) {
 
 
 login(email: string, password: string) {
-  const optionRequete = {
-    headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': '*'
-    })
-  };
-  return this.http.post('https://peaceful-mountain-88307.herokuapp.com/login', { email, password}, optionRequete);
-
+  return this.http.post('https://peaceful-mountain-88307.herokuapp.com/login', { email, password});
     }
-initArticles() {
 
-  const optionRequete = {
-    headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': '*'
-    })
-  };
-  return this.http.get('https://peaceful-mountain-88307.herokuapp.com/articles', optionRequete);
+initArticles() {
+  return this.http.get('https://peaceful-mountain-88307.herokuapp.com/articles');
 }
 initComments() {
-  const optionRequete = {
-    headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': '*'
-    })
-  };
-  return this.http.get('https://peaceful-mountain-88307.herokuapp.com/comments', optionRequete);
+  return this.http.get('https://peaceful-mountain-88307.herokuapp.com/comments');
 }
 newArticle(titre: string, article: string, token: string, categorie: string, image: string) {
   const date = formatDate(new Date(), 'yyyy/MM/dd', 'en');
   const httpOptions = {
     headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': '*',
-      Authorization: `Bearer ${token}`,
-      'Access-Control-Allow-Headers': '*'
+      Authorization: `Bearer ${token}`
     })
   };
   return this.http.post('https://peaceful-mountain-88307.herokuapp.com/postarticles',
@@ -63,47 +45,33 @@ newArticle(titre: string, article: string, token: string, categorie: string, ima
 updateArticle(titre: string, article: string, token: string, id: number) {
   const httpOptions = {
     headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': '*',
-       Authorization: `Bearer ${token}`,
-      'Access-Control-Allow-Headers': '*',
-      'Access-Control-Allow-Methods': 'PUT, POST, GET, DELETE, OPTIONS',
+       Authorization: `Bearer ${token}`
     })
   };
   return this.http.put('https://peaceful-mountain-88307.herokuapp.com/updatearticles', { titre, article, id}, httpOptions);
 }
-newComment(article: string, author: string, comment: string, token: string) {
+newComment(article: number, author: string, comment: string, token: string) {
 
   const date = formatDate(new Date(), 'yyyy/MM/dd', 'en');
   const httpOptions = {
     headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': '*',
-       Authorization: `Bearer ${token}`,
-      'Access-Control-Allow-Headers': '*'
+       Authorization: `Bearer ${token}`
     })
   };
   return this.http.post('https://peaceful-mountain-88307.herokuapp.com/comments',
-    { author, comment, article, date}, httpOptions).subscribe(r => {});
+    { author, comment, article, date}, httpOptions);
 }
 
 deleteArticle(id: number, token: string) {
   const httpOptions = {
     headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': '*',
-       Authorization: `Bearer ${token}`,
-      'Access-Control-Allow-Headers': '*'
+       Authorization: `Bearer ${token}`
     }),
   };
   return this.http.post('https://peaceful-mountain-88307.herokuapp.com/deletearticles', {id}, httpOptions);
 }
 sendContact(name: string, email: string, message: string) {
-  const httpOptions = {
-    headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': '*'
-
-    })
-  };
   return this.http.post('https://peaceful-mountain-88307.herokuapp.com/sendcontact',
-    { name, email, message }, httpOptions).subscribe(r => {});
+    { name, email, message });
 }
 }

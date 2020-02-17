@@ -149,8 +149,7 @@
           <img class="card-img-top articleImage" [src]="article.articlesImage" alt="Card image cap">
           <div class="card-body">
             <h2 class="card-title">{{article.articlesName}}</h2>
-            <p class="card-text" [innerHTML]= "article.articlesB.
-            ody">{{article.articlesNody}}</p>
+            <p class="card-text" [innerHTML]= "article.articlesBody">{{article.articlesBody}}</p>
             <button *ngIf="keepconnectionService.authRole != null && keepconnectionService.activatedAccount == true"   href="#" class="btn btn-outline-dark" (click)="openComment(newContent);defineArticle(book.articles_name)">ajouter un commentaire</button>
             <button *ngIf="keepconnectionService.authRole == 'admin' && keepconnectionService.activatedAccount == true"   href="#" class="btn btn-outline-dark" (click)="openUpdate(updatecontent);defineArticleUpdate(book.articles_name, book.articles_body,book.articles_id)">editer article</button>
             <button *ngIf="keepconnectionService.authRole == 'admin' && keepconnectionService.activatedAccount == true"   href="#" class="btn btn-outline-dark" (click)="confirmDelete(deletecontent,book.articles_id)">supprimer article</button>
