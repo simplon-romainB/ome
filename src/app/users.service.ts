@@ -50,7 +50,7 @@ updateArticle(titre: string, article: string, token: string, id: number) {
   };
   return this.http.put('https://peaceful-mountain-88307.herokuapp.com/updatearticles', { titre, article, id}, httpOptions);
 }
-newComment(article: number, author: string, comment: string, token: string) {
+newComment(article: string, author: string, comment: string, token: string) {
 
   const date = formatDate(new Date(), 'yyyy/MM/dd', 'en');
   const httpOptions = {

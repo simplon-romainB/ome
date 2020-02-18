@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../users.service';
 import { KeepconnectionService } from '../keepconnection.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {Router, ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Article } from '../article.model';
 import { Comment } from '../comment.model';
 
@@ -20,25 +20,23 @@ export class BlogComponent implements OnInit {
   private comments: Comment[];
 
   constructor(private keepconnectionService: KeepconnectionService,
-              private usersService: UsersService,
-              private modalService: NgbModal,
-              private router: Router,
-              private activeRoute: ActivatedRoute,
-              private article: Article
-              ) {
-                this.articles = new Array<Article>();
-                this.comments = new Array<Comment>();
-               }
+    private usersService: UsersService,
+    private modalService: NgbModal,
+    private router: Router,
+    private activeRoute: ActivatedRoute,
+    private article: Article
+  ) {
+    this.articles = new Array<Article>();
+    this.comments = new Array<Comment>();
+  }
+  private articleTitle: string;
   private articlesValue;
   private closeResult: string;
   private email: string;
   private password: string;
   private authToken: string;
-  private authRole: string = null;
-  private titre: string;
-  private author: string;
+  private authRole: string;
   private comment: string;
-  private articleTitle: string;
   private items: Array<any>;
   private pageOfItems: Array<any>;
   private activatedAccount: string;
@@ -49,79 +47,60 @@ export class BlogComponent implements OnInit {
   private articleEdit: string;
   private titleEdit: string;
   private model: any;
-  private image: string;
 
   public Editor = ClassicEditor;
   ngOnInit() {
 
     this.Init();
-}
+  }
 
 
   Init() {
-    const displayArticles = this.usersService.initArticles().subscribe(v => {const c = JSON.stringify(v);
-                                                                             this.articles = JSON.parse(c);
-                                                                             this.items = Array(this.articles.length).fill(0)
-                                                                             .map((x, i) => (
-                                                                               { id: (i + 1), articlesName: this.articles[i].articles_name,
-                                                                                              articlesBody: this.articles[i].articles_body,
-                                                                                              articlesDate: this.articles[i].articles_date,
-                                                                                              articlesId: this.articles[i].articles_id,
-                                                                                              articlesCategorie: this.articles[i].articles_categorie,
-                                                                                              articlesImage: this.articles[i].articles_image
-                                                                                }));
-                                                                             this.itemsFilter = this.items;
+    const displayArticles = this.usersService.initArticles().subscribe(results => {
+      const resultString = JSON.stringify(results); //
+      this.articles = JSON.parse(resultString);
+      this.items = Array(this.articles.length).fill(0).map((x, i) => (
+        {
+          id: (i + 1), articlesName: this.articles[i].articles_name,
+          articlesBody: this.articles[i].articles_body,
+          articlesDate: this.articles[i].articles_date,
+          articlesId: this.articles[i].articles_id,
+          articlesCategorie: this.articles[i].articles_categorie,
+          articlesImage: this.articles[i].articles_image
+        }));
+      this.itemsFilter = this.items;
     });
-    const s = this.usersService.initComments().subscribe(v => { const c = JSON.stringify(v);
-                                                                this.comments = JSON.parse(c);
-                                                              });
+    const displayComments = this.usersService.initComments().subscribe(results => {
+      const resultString = JSON.stringify(results);
+      this.comments = JSON.parse(resultString);
+    });
   }
 
   onChangePage(pageOfItems: Array<any>) {
-    // update current page of items
     this.pageOfItems = pageOfItems;
-}
+  }
 
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'xl'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed`;
-    });
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
   }
   openUpdate(updatecontent) {
-    this.modalService.open(updatecontent, {ariaLabelledBy: 'modal-basic-title', size: 'xl'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed`;
-    });
-  }
-  defineArticle(article: string) {
-    this.articleTitle = article;
-  }
-  defineArticleUpdate(name: string, body: string, id: number) {
-    this.idCurrent = id;
-    this.articleEdit = body;
-    this.titleEdit = name;
-
+    this.modalService.open(updatecontent, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
   }
 
-  openComment(newContent) {
-    this.modalService.open(newContent, {ariaLabelledBy: 'modal-basic-title', size: 'xl'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed`;
-    });
-
+  openComment(newContent, title) {
+    this.articleTitle = title;
+    this.modalService.open(newContent, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
   }
 
   confirmDelete(deletecontent, id: number) {
     this.idCurrent = id;
-    this.modalService.open(deletecontent, {ariaLabelledBy: 'modal-basic-title', size: 'sm'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed`;
-    });
+    this.modalService.open(deletecontent, { ariaLabelledBy: 'modal-basic-title', size: 'sm' });
+  }
+
+  defineArticleUpdate(name: string, body: string, id: number) {
+    this.idCurrent = id;
+    this.articleEdit = body;
+    this.titleEdit = name;
   }
 
   deleteArticle(id: number, token: string) {
@@ -129,59 +108,59 @@ export class BlogComponent implements OnInit {
     const s = this.usersService.deleteArticle(id, token).subscribe(v =>
       this.Init());
   }
-disconnect() {
-  this.keepconnectionService.connexion = 0;
-  this.keepconnectionService.authToken = null;
-  this.keepconnectionService.authRole = null;
-  this.keepconnectionService.activatedAccount = null;
-}
+  disconnect() {
+    this.keepconnectionService.connexion = 0;
+    this.keepconnectionService.authToken = null;
+    this.keepconnectionService.authRole = null;
+    this.keepconnectionService.activatedAccount = null;
+  }
 
-login(email: string, password: string) {
-  this.usersService.login(email, password);
-  const s = this.usersService.login(email, password).subscribe(v => {
-      if (v !== null && v !== 'wrong password') {
+  login(email: string, password: string) {
+    this.usersService.login(email, password);
+    const s = this.usersService.login(email, password).subscribe(result => {
+      if (result !== null && result !== 'wrong password') {
         this.keepconnectionService.connexion = 3;
-        this.keepconnectionService.authToken = v[0];
-        this.keepconnectionService.authRole = v[1];
-        this.keepconnectionService.activatedAccount = v[2];
+        this.keepconnectionService.authToken = result[0];
+        this.keepconnectionService.authRole = result[1];
+        this.keepconnectionService.activatedAccount = result[2];
         this.errorMessage = null;
         this.alert = false;
-      } else if (v === 'wrong password') {
-          this.alert = true;
-          this.errorMessage = 'wrong password';
-      } else if (v === null) {
+      } else if (result === 'wrong password') {
+        this.alert = true;
+        this.errorMessage = 'wrong password';
+      } else if (result === null) {
         this.alert = true;
         this.errorMessage = 'wrong email';
       }
-  });
-}
-
-articleFilter(categorie: string) {
- this.items = this.itemsFilter.filter(v => v.articlesCategorie.toString() === categorie);
-}
-register(email: string, password: string) {
-  this.usersService.register(email, password);
-  this.keepconnectionService.connexion = 0;
-  alert('un email de confirmation a été envoyé a' +
-        this.keepconnectionService.email +
-        ' veuillez clicker sur le lien fourni pour activer votre compte');
+    });
   }
-loginShow() {
-  this.keepconnectionService.connexion = 1;
-}
-registerShow() {
-  this.keepconnectionService.connexion = 2;
-}
-newArticle(titre: string, article: string, authToken: string, categorie: string, image: string) {
-  this.usersService.newArticle(titre, article, authToken, categorie, image);
-  const s = this.usersService.newArticle(titre, article, authToken, categorie, image).subscribe(v => this.Init());
-}
-newComment(article: number, author: string, comment: string, token: string) {
-  this.usersService.newComment(article, author, comment, token);
-}
-updateArticle(title: string, body: string, token: string, id: number) {
-  this.usersService.updateArticle(title, body, token, id);
-  const s = this.usersService.updateArticle(title, body, token, id).subscribe(v =>
-    this.Init());
-}
+
+  articleFilter(categorie: string) {
+    this.items = this.itemsFilter.filter(v => v.articlesCategorie.toString() === categorie);
+  }
+  register(email: string, password: string) {
+    this.usersService.register(email, password);
+    this.keepconnectionService.connexion = 0;
+    alert('un email de confirmation a été envoyé a' +
+      this.keepconnectionService.email +
+      ' veuillez clicker sur le lien fourni pour activer votre compte');
+  }
+  loginShow() {
+    this.keepconnectionService.connexion = 1;
+  }
+  registerShow() {
+    this.keepconnectionService.connexion = 2;
+  }
+  newArticle(titre: string, article: string, authToken: string, categorie: string, image: string) {
+    this.usersService.newArticle(titre, article, authToken, categorie, image);
+    const s = this.usersService.newArticle(titre, article, authToken, categorie, image).subscribe(v => this.Init());
+  }
+  newComment(article: string, author: string, comment: string, token: string) {
+    this.usersService.newComment(article, author, comment, token).subscribe(v => this.Init());
+  }
+  updateArticle(title: string, body: string, token: string, id: number) {
+    this.usersService.updateArticle(title, body, token, id);
+    const s = this.usersService.updateArticle(title, body, token, id).subscribe(v =>
+      this.Init());
+  }
 }
