@@ -1,7 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import * as _ from 'lodash';
 import { of } from 'rxjs';
+
 
 import { BlogComponent } from './blog.component';
 import { UsersService } from '../users.service';
@@ -16,14 +17,12 @@ import { Comment } from '../comment.model';
 
 
 describe('BlogComponent', () => {
-    let http: HttpClient;
-    let spy: any;
-    let keepconnectionService: KeepconnectionService;
-    const usersService: UsersService = new UsersService(http);
-    let modalService: NgbModal;
-    const blogComponent = new BlogComponent(keepconnectionService, usersService, modalService);
-    let articles: Article[];
-    let comments: Comment[];
+    let injector: TestBed;
+    let blogComponent: BlogComponent;
+    let usersService: UsersService;
+    injector = getTestBed();
+    blogComponent = injector.get(BlogComponent);
+    usersService = injector.get(UsersService);
 
     beforeEach(() => {
         TestBed.configureTestingModule({
