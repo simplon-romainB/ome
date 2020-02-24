@@ -5,7 +5,6 @@
     "ng": "ng",
     "build": "ng build",
     "test": "ng test",
-    "start": "ng lint && ng serve",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
