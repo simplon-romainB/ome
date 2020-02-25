@@ -1,8 +1,7 @@
-import { async, ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA, ApplicationModule } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import * as _ from 'lodash';
 import { of } from 'rxjs';
-
 
 import { BlogComponent } from './blog.component';
 import { UsersService } from '../users.service';
@@ -15,29 +14,22 @@ import { Comment } from '../comment.model';
 
 
 
-
 describe('BlogComponent', () => {
-    let blogComponent: BlogComponent;
-    let usersService: UsersService;
-    let fixture: ComponentFixture<BlogComponent>;
+    let http: HttpClient;
+    let spy: any;
+    let keepconnectionService: KeepconnectionService;
+    const usersService: UsersService = new UsersService(http);
+    let modalService: NgbModal;
+    const blogComponent = new BlogComponent(keepconnectionService, usersService, modalService);
+    let articles: Article[];
+    let comments: Comment[];
 
-    beforeEach(async () => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
-          imports: [ApplicationModule],
           declarations: [BlogComponent],
-          providers: [UsersService, KeepconnectionService, NgbModal, Article, Comment],
+          providers: [UsersService, KeepconnectionService, NgbModal],
           schemas: [NO_ERRORS_SCHEMA]
-        }).compileComponents()
-        .then(() => {
-             fixture = TestBed.createComponent(BlogComponent);
-             blogComponent = fixture.componentInstance;
-             usersService = TestBed.get(UsersService);
-             console.log(blogComponent);
-           });
-
-        //fixture = TestBed.createComponent(BlogComponent);
-       // blogComponent = fixture.componentInstance;
-        //usersService = TestBed.get(UsersService);
+        });
     });
     it('should initialize articles and comments', () => {
         const dummyArticles: object = [{id: 1,
@@ -72,10 +64,4 @@ describe('BlogComponent', () => {
         const results = blogComponent.Init();
         expect(JSON.stringify(results)).toEqual(JSON.stringify([dummyArticles, dummyComments]));
     });
-
-    it('should change page', () => {
-        const dummyPageOfItems: Array<any> = [{items: 'items'}];
-        expect(blogComponent.onChangePage(dummyPageOfItems)).toEqual(dummyPageOfItems);
-    });
 });
-

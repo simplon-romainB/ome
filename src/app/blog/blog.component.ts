@@ -16,17 +16,19 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
   styleUrls: ['./blog.component.styl']
 })
 export class BlogComponent implements OnInit {
-  public articles: Article[];
-  public comments: Comment[];
+  private articles: Article[];
+  private comments: Comment[];
 
   constructor(private keepconnectionService: KeepconnectionService,
     private usersService: UsersService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router,
+    private activeRoute: ActivatedRoute,
+    private article: Article
   ) {
     this.articles = new Array<Article>();
     this.comments = new Array<Comment>();
   }
-
   private articleTitle: string;
   private articlesValue;
   private closeResult: string;
@@ -55,7 +57,7 @@ export class BlogComponent implements OnInit {
 
   Init() {
     const displayArticles = this.usersService.initArticles().subscribe(results => {
-      const resultString = JSON.stringify(results);
+      const resultString = JSON.stringify(results); //
       this.articles = JSON.parse(resultString);
       this.items = Array(this.articles.length).fill(0).map((x, i) => (
         {
@@ -72,45 +74,38 @@ export class BlogComponent implements OnInit {
       const resultString = JSON.stringify(results);
       this.comments = JSON.parse(resultString);
     });
-    return [this.itemsFilter, this.comments];
   }
 
   onChangePage(pageOfItems: Array<any>) {
     this.pageOfItems = pageOfItems;
-    return this.pageOfItems;
   }
 
   open(content) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
-    return content;
   }
   openUpdate(updatecontent) {
     this.modalService.open(updatecontent, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
-    return updatecontent;
   }
 
-  openComment(newContent, title: string) {
+  openComment(newContent, title) {
     this.articleTitle = title;
     this.modalService.open(newContent, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
-    return [this.articleTitle, newContent];
   }
 
   confirmDelete(deletecontent, id: number) {
     this.idCurrent = id;
     this.modalService.open(deletecontent, { ariaLabelledBy: 'modal-basic-title', size: 'sm' });
-    return [deletecontent, this.idCurrent];
   }
 
   defineArticleUpdate(name: string, body: string, id: number) {
     this.idCurrent = id;
     this.articleEdit = body;
     this.titleEdit = name;
-    return [this.idCurrent, this.articleEdit, this.titleEdit];
   }
 
   deleteArticle(id: number, token: string) {
     this.usersService.deleteArticle(id, token);
-    return this.usersService.deleteArticle(id, token).subscribe(v =>
+    const s = this.usersService.deleteArticle(id, token).subscribe(v =>
       this.Init());
   }
   disconnect() {
@@ -118,7 +113,6 @@ export class BlogComponent implements OnInit {
     this.keepconnectionService.authToken = null;
     this.keepconnectionService.authRole = null;
     this.keepconnectionService.activatedAccount = null;
-    return [this.keepconnectionService];
   }
 
   login(email: string, password: string) {
@@ -131,22 +125,18 @@ export class BlogComponent implements OnInit {
         this.keepconnectionService.activatedAccount = result[2];
         this.errorMessage = null;
         this.alert = false;
-        return [this.keepconnectionService, this.errorMessage, this.alert];
       } else if (result === 'wrong password') {
         this.alert = true;
         this.errorMessage = 'wrong password';
-        return [this.alert, this.errorMessage];
       } else if (result === null) {
         this.alert = true;
         this.errorMessage = 'wrong email';
-        return [this.alert, this.errorMessage];
       }
     });
   }
 
   articleFilter(categorie: string) {
     this.items = this.itemsFilter.filter(v => v.articlesCategorie.toString() === categorie);
-    return this.items;
   }
   register(email: string, password: string) {
     this.usersService.register(email, password);
@@ -154,27 +144,23 @@ export class BlogComponent implements OnInit {
     alert('un email de confirmation a été envoyé a' +
       this.keepconnectionService.email +
       ' veuillez clicker sur le lien fourni pour activer votre compte');
-    return this.keepconnectionService;
   }
   loginShow() {
     this.keepconnectionService.connexion = 1;
-    return this.keepconnectionService;
   }
   registerShow() {
     this.keepconnectionService.connexion = 2;
-    return this.keepconnectionService;
   }
   newArticle(titre: string, article: string, authToken: string, categorie: string, image: string) {
     this.usersService.newArticle(titre, article, authToken, categorie, image);
-    return this.usersService.newArticle(titre, article, authToken, categorie, image).subscribe(v => this.Init());
+    const s = this.usersService.newArticle(titre, article, authToken, categorie, image).subscribe(v => this.Init());
   }
   newComment(article: string, author: string, comment: string, token: string) {
-    this.usersService.newComment(article, author, comment, token);
-    return this.usersService.newComment(article, author, comment, token).subscribe(v => this.Init());
+    this.usersService.newComment(article, author, comment, token).subscribe(v => this.Init());
   }
   updateArticle(title: string, body: string, token: string, id: number) {
     this.usersService.updateArticle(title, body, token, id);
-    return this.usersService.updateArticle(title, body, token, id).subscribe(v =>
+    const s = this.usersService.updateArticle(title, body, token, id).subscribe(v =>
       this.Init());
   }
 }

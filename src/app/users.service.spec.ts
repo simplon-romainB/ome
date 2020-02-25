@@ -1,8 +1,8 @@
 
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { TestBed, getTestBed  } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { formatDate } from '@angular/common';
+import { HttpClientModule, HttpClient} from '@angular/common/http';
+import {formatDate} from '@angular/common';
 
 import { UsersService } from './users.service';
 
@@ -17,19 +17,18 @@ describe('UsersService', () => {
   const token = 'secretToken';
   const header = 'authorization';
   const headerValue = `Bearer ${token}`;
-  headers.append(header, headerValue);
-  const dummyCredentials = { email: 'test@test.com', password: 'password' };
+  headers.append(header, headerValue );
+  const dummyCredentials = { email: 'test@test.com', password: 'password'};
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [UsersService]
-    });
+  beforeEach(() => {TestBed.configureTestingModule({
+    imports: [HttpClientTestingModule],
+    providers: [UsersService]
+  });
 
     injector = getTestBed();
     service = injector.get(UsersService);
     httpMock = injector.get(HttpTestingController);
-  });
+});
 
   it('should return articles', () => {
     const dummyArticles: object = [
@@ -46,11 +45,11 @@ describe('UsersService', () => {
 
   it('should return comments', () => {
     const dummyComments: object = [
-      { articles: 1, author: 'author1', body: 'commentBody1', id: 1 },
-      { articles: 1, author: 'author1', body: 'commentBody1', id: 1 }
+      { articles: 1, author: 'author1', body: 'commentBody1', id: 1  },
+      { articles: 1, author: 'author1', body: 'commentBody1', id: 1  }
     ];
     service.initComments().subscribe(comments => {
-      expect(comments).toEqual(dummyComments);
+      expect (comments).toEqual(dummyComments);
     });
     const req = httpMock.expectOne('https://peaceful-mountain-88307.herokuapp.com/comments');
     expect(req.request.method).toBe('GET');
@@ -58,7 +57,7 @@ describe('UsersService', () => {
   });
 
   it('should register email/password', () => {
-    service.register(dummyCredentials.email, dummyCredentials.password).subscribe((v) => { });
+    service.register(dummyCredentials.email, dummyCredentials.password).subscribe((v) => {});
     const req = httpMock.expectOne('https://peaceful-mountain-88307.herokuapp.com/db');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(dummyCredentials);
@@ -66,7 +65,7 @@ describe('UsersService', () => {
   });
 
   it('should login email/password', () => {
-    service.login(dummyCredentials.email, dummyCredentials.password).subscribe((v) => { });
+    service.login(dummyCredentials.email, dummyCredentials.password).subscribe((v) => {});
     const req = httpMock.expectOne('https://peaceful-mountain-88307.herokuapp.com/login');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(dummyCredentials);
@@ -76,10 +75,9 @@ describe('UsersService', () => {
   it('should post new article', () => {
     const currentDate = formatDate(new Date(), 'yyyy/MM/dd', 'en');
     const dummyArticle = {
-      titre: 'articleTitre', article: 'articleBody', date: currentDate, categorie: 'articleCategorie', image: 'articleImage'
-    };
+      titre: 'articleTitre', article: 'articleBody', date: currentDate, categorie: 'articleCategorie', image: 'articleImage'};
     service.newArticle(dummyArticle.titre, dummyArticle.article, token, dummyArticle.categorie, dummyArticle.image)
-      .subscribe((v) => { });
+      .subscribe((v) => {});
     const req = httpMock.expectOne('https://peaceful-mountain-88307.herokuapp.com/postarticles');
     expect(req.request.headers.get(header)).toEqual(headerValue);
     expect(req.request.method).toBe('POST');
@@ -89,10 +87,9 @@ describe('UsersService', () => {
 
   it('should update article', () => {
     const dummyArticle = {
-      titre: 'articleTitre', article: 'articleBody', id: 1
-    };
+      titre: 'articleTitre', article: 'articleBody', id: 1};
     service.updateArticle(dummyArticle.titre, dummyArticle.article, token, dummyArticle.id)
-      .subscribe((v) => { });
+      .subscribe((v) => {});
     const req = httpMock.expectOne('https://peaceful-mountain-88307.herokuapp.com/updatearticles');
     expect(req.request.method).toBe('PUT');
     expect(req.request.body).toEqual(dummyArticle);
@@ -102,9 +99,9 @@ describe('UsersService', () => {
 
   it('should post new comment', () => {
     const date = formatDate(new Date(), 'yyyy/MM/dd', 'en');
-    const dummyComment = { author: 'author1', comment: 'commentaire', article: 'articleName', date };
+    const dummyComment = { author: 'author1', comment: 'commentaire', article: 1, date };
     service.newComment(dummyComment.article, dummyComment.author, dummyComment.comment, token)
-      .subscribe((v) => { });
+      .subscribe((v) => {});
     const req = httpMock.expectOne('https://peaceful-mountain-88307.herokuapp.com/comments');
     expect(req.request.headers.get(header)).toEqual(headerValue);
     expect(req.request.body).toEqual(dummyComment);
@@ -115,7 +112,7 @@ describe('UsersService', () => {
   it('should delete article', () => {
     const dummyId = 1;
     service.deleteArticle(dummyId, token)
-      .subscribe((v) => { });
+      .subscribe((v) => {});
     const req = httpMock.expectOne('https://peaceful-mountain-88307.herokuapp.com/deletearticles');
     expect(req.request.headers.get(header)).toEqual(headerValue);
     expect(req.request.body.id).toEqual(dummyId);
@@ -124,9 +121,9 @@ describe('UsersService', () => {
   });
 
   it('should post contact infos', () => {
-    const dummyContact = { name: 'myName', email: 'email', message: 'myMessage' };
+    const dummyContact = { name: 'myName', email: 'email', message: 'myMessage'};
     service.sendContact(dummyContact.name, dummyContact.email, dummyContact.message)
-      .subscribe((v) => { });
+      .subscribe((v) => {});
     const req = httpMock.expectOne('https://peaceful-mountain-88307.herokuapp.com/sendcontact');
     expect(req.request.body).toEqual(dummyContact);
     expect(req.request.method).toBe('POST');
