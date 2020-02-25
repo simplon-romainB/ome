@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, ApplicationModule } from '@angular/core';
 import * as _ from 'lodash';
 import { of } from 'rxjs';
 
@@ -17,19 +17,27 @@ import { Comment } from '../comment.model';
 
 
 describe('BlogComponent', () => {
-    let injector: TestBed;
     let blogComponent: BlogComponent;
     let usersService: UsersService;
-    injector = getTestBed();
-    blogComponent = injector.get(BlogComponent);
-    usersService = injector.get(UsersService);
+    let fixture: ComponentFixture<BlogComponent>;
 
-    beforeEach(() => {
+    beforeEach(async () => {
         TestBed.configureTestingModule({
+          imports: [ApplicationModule],
           declarations: [BlogComponent],
-          providers: [UsersService, KeepconnectionService, NgbModal],
+          providers: [UsersService, KeepconnectionService, NgbModal, Article, Comment],
           schemas: [NO_ERRORS_SCHEMA]
-        });
+        }).compileComponents()
+        .then(() => {
+             fixture = TestBed.createComponent(BlogComponent);
+             blogComponent = fixture.componentInstance;
+             usersService = TestBed.get(UsersService);
+             console.log(blogComponent);
+           });
+
+        //fixture = TestBed.createComponent(BlogComponent);
+       // blogComponent = fixture.componentInstance;
+        //usersService = TestBed.get(UsersService);
     });
     it('should initialize articles and comments', () => {
         const dummyArticles: object = [{id: 1,
@@ -63,6 +71,11 @@ describe('BlogComponent', () => {
         usersService.initComments = jasmine.createSpy().and.returnValue(of(dummyComments));
         const results = blogComponent.Init();
         expect(JSON.stringify(results)).toEqual(JSON.stringify([dummyArticles, dummyComments]));
+    });
+
+    it('should change page', () => {
+        const dummyPageOfItems: Array<any> = [{items: 'items'}];
+        expect(blogComponent.onChangePage(dummyPageOfItems)).toEqual(dummyPageOfItems);
     });
 });
 
