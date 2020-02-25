@@ -21,7 +21,7 @@ export class BlogComponent implements OnInit {
 
   constructor(private keepconnectionService: KeepconnectionService,
     private usersService: UsersService,
-    private modalService: NgbModal
+    public modalService: NgbModal
   ) {
     this.articles = new Array<Article>();
     this.comments = new Array<Comment>();
