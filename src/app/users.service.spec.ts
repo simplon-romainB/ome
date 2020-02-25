@@ -99,7 +99,7 @@ describe('UsersService', () => {
 
   it('should post new comment', () => {
     const date = formatDate(new Date(), 'yyyy/MM/dd', 'en');
-    const dummyComment = { author: 'author1', comment: 'commentaire', article: 1, date };
+    const dummyComment = { author: 'author1', comment: 'commentaire', article: 'title', date };
     service.newComment(dummyComment.article, dummyComment.author, dummyComment.comment, token)
       .subscribe((v) => {});
     const req = httpMock.expectOne('https://peaceful-mountain-88307.herokuapp.com/comments');

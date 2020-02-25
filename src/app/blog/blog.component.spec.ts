@@ -14,6 +14,7 @@ import { Comment } from '../comment.model';
 
 
 
+
 describe('BlogComponent', () => {
     let http: HttpClient;
     let spy: any;
@@ -63,5 +64,9 @@ describe('BlogComponent', () => {
         usersService.initComments = jasmine.createSpy().and.returnValue(of(dummyComments));
         const results = blogComponent.Init();
         expect(JSON.stringify(results)).toEqual(JSON.stringify([dummyArticles, dummyComments]));
+    });
+    it('should return pageOfItems', () => {
+        const dummyPageOfItems: Array<any> = [{items: 'items'}];
+        expect(blogComponent.onChangePage(dummyPageOfItems)).toEqual(dummyPageOfItems);
     });
 });
