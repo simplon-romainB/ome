@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import * as _ from 'lodash';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { BlogComponent } from './blog.component';
 import { UsersService } from '../users.service';
@@ -14,10 +14,6 @@ import { Comment } from '../comment.model';
 import { FormsModule } from '@angular/forms';
 
 
-export class MockNgbModalRef {
-    result: Promise<any> = new Promise((resolve, reject) => resolve('x'));
-  }
-
 
 describe('BlogComponent', () => {
     let fixture: ComponentFixture<BlogComponent>;
@@ -25,9 +21,8 @@ describe('BlogComponent', () => {
     let usersService: UsersService;
     let modalService: NgbModal;
     let keepconnectionService: KeepconnectionService;
-    let mockModalRef: MockNgbModalRef = new MockNgbModalRef();
 
-    beforeEach(async() => {
+    beforeEach(async () => {
         TestBed.configureTestingModule({
             imports: [FormsModule, HttpClientTestingModule, NgbModule],
             declarations: [BlogComponent],
@@ -90,5 +85,51 @@ describe('BlogComponent', () => {
         spyOn(modalService, 'open');
         blogComponent.open('content');
         expect(modalService.open).toHaveBeenCalledWith('content', { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
+    });
+    it('should open update articles modal', () => {
+        spyOn(modalService, 'open');
+        blogComponent.openUpdate('updatecontent');
+        expect(modalService.open).toHaveBeenCalledWith('updatecontent', { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
+    });
+    it('should open new comment modal', () => {
+        const dummyTitle = 'dummyTitle';
+        spyOn(modalService, 'open');
+        blogComponent.openComment('newcontent', dummyTitle);
+        expect(modalService.open).toHaveBeenCalledWith('newcontent', { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
+        expect(blogComponent.articleTitle).toEqual(dummyTitle);
+    });
+    it('should open confirm delete modal', () => {
+        const dummyId = 1;
+        spyOn(modalService, 'open');
+        blogComponent.confirmDelete('deletecontent', dummyId);
+        expect(modalService.open).toHaveBeenCalledWith('deletecontent', { ariaLabelledBy: 'modal-basic-title', size: 'sm' });
+        expect(blogComponent.idCurrent).toEqual(dummyId);
+    });
+    it('should define an article to update', () => {
+        const articleUpdate = blogComponent.defineArticleUpdate('title', 'body', 1);
+        expect(articleUpdate).toEqual([1, 'body', 'title']);
+    });
+    it('should delete an article', () => {
+        spyOn(usersService, 'deleteArticle').and.callFake((id: number, token: string) => {
+            const retour: Observable<object> = Observable.create((observer) => {
+                observer.next('Hello');
+                observer.next('World');
+                observer.complete();
+            });
+            return retour;
+        });
+        spyOn(blogComponent, 'Init')
+        const retour = blogComponent.deleteArticle(1, 'token');
+        expect(usersService.deleteArticle).toHaveBeenCalledWith(1, 'token');
+        expect(blogComponent.Init).toHaveBeenCalled();
+    });
+    it('should reset connectionServices variables', () => {
+        const dummyConnectionService = { connexion: 0, authToken: null, authRole: null, activatedAccount: null};
+        const disconnection = blogComponent.disconnect();
+        console.log(disconnection);
+        expect(disconnection.connexion).toEqual(dummyConnectionService.connexion);
+        expect(disconnection.authToken).toEqual(dummyConnectionService.authToken);
+        expect(disconnection.authRole).toEqual(dummyConnectionService.authRole);
+        expect(disconnection.activatedAccount).toEqual(dummyConnectionService.activatedAccount);
     });
 });

@@ -170,10 +170,10 @@
               commentaire</button>
             <button *ngIf="keepconnectionService.authRole == 'admin' && keepconnectionService.activatedAccount == true"
               href="#" class="btn btn-outline-dark"
-              (click)="openUpdate(updatecontent);defineArticleUpdate(article.articles_name, article.articles_body,article.articles_id)">editer
+              (click)="openUpdate(updatecontent);defineArticleUpdate(article.articlesName, article.articlesBody,article.articlesId)">editer
               article</button>
             <button *ngIf="keepconnectionService.authRole == 'admin' && keepconnectionService.activatedAccount == true"
-              href="#" class="btn btn-outline-dark" (click)="confirmDelete(deletecontent,article.articles_id)">supprimer
+              href="#" class="btn btn-outline-dark" (click)="confirmDelete(deletecontent,article.articlesId)">supprimer
               article</button>
           </div>
           <div class="card-footer text-muted">

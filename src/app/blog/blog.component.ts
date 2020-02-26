@@ -27,7 +27,7 @@ export class BlogComponent implements OnInit {
     this.comments = new Array<Comment>();
   }
 
-  private articleTitle: string;
+  public articleTitle: string;
   private articlesValue;
   private closeResult: string;
   private email: string;
@@ -41,7 +41,7 @@ export class BlogComponent implements OnInit {
   private errorMessage: string;
   private alert: boolean;
   private itemsFilter: any[];
-  private idCurrent: number;
+  public idCurrent: number;
   private articleEdit: string;
   private titleEdit: string;
   private model: any;
@@ -110,7 +110,7 @@ export class BlogComponent implements OnInit {
 
   deleteArticle(id: number, token: string) {
     this.usersService.deleteArticle(id, token);
-    return this.usersService.deleteArticle(id, token).subscribe(v =>
+    const s = this.usersService.deleteArticle(id, token).subscribe(v =>
       this.Init());
   }
   disconnect() {
@@ -118,7 +118,7 @@ export class BlogComponent implements OnInit {
     this.keepconnectionService.authToken = null;
     this.keepconnectionService.authRole = null;
     this.keepconnectionService.activatedAccount = null;
-    return [this.keepconnectionService];
+    return this.keepconnectionService;
   }
 
   login(email: string, password: string) {
