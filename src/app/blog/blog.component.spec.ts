@@ -126,10 +126,87 @@ describe('BlogComponent', () => {
     it('should reset connectionServices variables', () => {
         const dummyConnectionService = { connexion: 0, authToken: null, authRole: null, activatedAccount: null};
         const disconnection = blogComponent.disconnect();
-        console.log(disconnection);
         expect(disconnection.connexion).toEqual(dummyConnectionService.connexion);
         expect(disconnection.authToken).toEqual(dummyConnectionService.authToken);
         expect(disconnection.authRole).toEqual(dummyConnectionService.authRole);
         expect(disconnection.activatedAccount).toEqual(dummyConnectionService.activatedAccount);
+    });
+    it('should call usersService login', () => {
+        spyOn(usersService, 'login').and.callThrough();
+        blogComponent.login('email', 'password');
+        expect(usersService.login).toHaveBeenCalled();
+    });
+    it('should display login infos(success)', () => {
+        spyOn(usersService, 'login').and.callFake((email: string, password: string) => {
+            const retour: Observable<object> = Observable.create((observer) => {
+                observer.next(['secretToken', 'role', 'true']);
+                observer.complete();
+            });
+            return retour;
+        });
+        blogComponent.login('email', 'password');
+        expect(keepconnectionService.authToken).toEqual('secretToken');
+        expect(keepconnectionService.authRole).toEqual('role');
+        expect(keepconnectionService.activatedAccount).toEqual('true');
+        expect(blogComponent.errorMessage).toEqual(null);
+        expect(blogComponent.alert).toBe(false);
+        expect(keepconnectionService.connexion).toEqual(3);
+    });
+    it('should display password error(wrong password)', () => {
+        spyOn(usersService, 'login').and.callFake((email: string, password: string) => {
+            const retour: Observable<object> = Observable.create((observer) => {
+                observer.next('wrong password');
+                observer.complete();
+            });
+            return retour;
+        });
+        blogComponent.login('email', 'password');
+        expect(blogComponent.errorMessage).toEqual('wrong password');
+        expect(blogComponent.alert).toEqual(true);
+    });
+    it('should display email error(wrong email)', () => {
+        spyOn(usersService, 'login').and.callFake((email: string, password: string) => {
+            const retour: Observable<object> = Observable.create((observer) => {
+                observer.next(null);
+                observer.complete();
+            });
+            return retour;
+        });
+        blogComponent.login('email', 'password');
+        expect(blogComponent.errorMessage).toEqual('wrong email');
+        expect(blogComponent.alert).toEqual(true);
+
+    });
+    it('should display filter articles', () => {
+        blogComponent.itemsFilter = [{title: 'title', articlesCategorie: 'tech'}, {title: 'title2', articlesCategorie: 'nouvelles'}];
+        const dummyItems = [{title: 'title2', articlesCategorie: 'nouvelles'}];
+        blogComponent.articleFilter('nouvelles');
+        expect(blogComponent.items).toEqual(dummyItems);
+
+    });
+    it('should call usersService register', () => {
+        keepconnectionService.email = 'email'; // define by a NgModal in template
+        spyOn(usersService, 'register').and.callThrough();
+        blogComponent.register('email', 'password');
+        expect(usersService.register).toHaveBeenCalled();
+        expect(keepconnectionService.connexion).toEqual(0);
+        expect(keepconnectionService.email).toEqual('email');
+    });
+    it('should create an article', () => {
+        spyOn(usersService, 'newArticle').and.callFake((titre: 'titre',
+                                                        article: 'article',
+                                                        token: 'serectToken',
+                                                        categorie: 'categorie',
+                                                        image: 'image') => {
+            const retour: Observable<object> = Observable.create((observer) => {
+                observer.next('fake');
+                observer.complete();
+            });
+            return retour;
+        });
+        spyOn(blogComponent, 'Init');
+        blogComponent.newArticle('titre', 'article', 'secertToken', 'categorie', 'image');
+        expect(usersService.newArticle).toHaveBeenCalledWith('titre', 'article', 'secertToken', 'categorie', 'image');
+        expect(blogComponent.Init).toHaveBeenCalled();
     });
 });
