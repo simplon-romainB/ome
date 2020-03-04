@@ -168,7 +168,7 @@
             <button *ngIf="keepconnectionService.authRole != null && keepconnectionService.activatedAccount == true"
               href="#" class="btn btn-outline-dark" (click)="openComment(newContent, article.articlesName)">ajouter un
               commentaire</button>
-            <button *ngIf="keepconnectionService.authRole == 'admin' && keepconnectionService.activatedAccount == true"
+            <button *ngIf="keepconnectionService.authRole == 'admin' && keepconnectionService.activatedAccount == true" id = 'addArticleButton'
               href="#" class="btn btn-outline-dark"
               (click)="openUpdate(updatecontent);defineArticleUpdate(article.articlesName, article.articlesBody,article.articlesId)">editer
               article</button>
@@ -264,7 +264,7 @@
         <h5 class="card-header">Connexion</h5>
         <div class="card-body">
           <div *ngIf="keepconnectionService.connexion == 0">
-            <button type="button" class="btn btn-outline-dark btn-lg" (click)=loginShow()>Connexion</button>
+            <button type="button" class="btn btn-outline-dark btn-lg" id="connexionEmailInput" (click)=loginShow()>Connexion</button>
             <button type="button" class="btn btn-outline-dark btn-lg" (click)=registerShow()>Inscription</button>
           </div>
           <form *ngIf="keepconnectionService.connexion == 2"
@@ -293,17 +293,17 @@
             <div class="form-group">
               <label for="exampleInputEmail1">Adresse email</label>
               <div *ngIf="wrongEmail == true">email inexistant</div>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              <input type="email" class="form-control" id="loginEmail" aria-describedby="emailHelp"
                 [(ngModel)]="keepconnectionService.email" [ngModelOptions]="{standalone: true}" required email>
             </div>
             <div class="form-group">
-              <label for="exampleInputPassword1">Mot de passe</label>
+              <label for="loginPassword">Mot de passe</label>
               <div *ngIf="wrongPassword == true ">Mot de passe erroné</div>
-              <input type="password" class="form-control" id="exampleInputPassword1" [(ngModel)]="password"
+              <input type="password" class="form-control" id="loginPassword" [(ngModel)]="password"
                 [ngModelOptions]="{standalone: true}"
                 pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$" required>
             </div>
-            <button type="submit" class="btn btn-outline-dark">Connexion</button>
+            <button type="submit" class="btn btn-outline-dark" id='loginConnexion'>Connexion</button>
           </form>
           <form *ngIf="keepconnectionService.connexion == 3">
             <div class="form-group">
