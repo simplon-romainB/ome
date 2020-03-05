@@ -21,8 +21,8 @@ describe('ome', () => {
   it('should login admin', () => {
     browser.sleep(5000);
     login.click();
-    loginEmail.sendKeys('romain.barry69@gmail.com');
-    loginPassword.sendKeys('Magicstar198.');
+    loginEmail.sendKeys('');
+    loginPassword.sendKeys(');
     loginConnexion.click();
     browser.wait(EC.elementToBeClickable(element(by.id('addArticleButton'))), 5000);
     console.log('ok ajouter article est clickable');
