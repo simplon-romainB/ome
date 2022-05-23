@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./projects.component.styl']
 })
 export class ProjectsComponent implements OnInit {
-  images = ['/assets/gameoflife.png', '/assets/planete-mars.jpg', '/assets/raw.jfif', '/assets/asteroids.jpg'];
+  images = ['/assets/gameoflife.png', '/assets/planete-mars.jpg', '/assets/raw.jfif', '/assets/asteroids.jpg', '/assets/jadoo.png'];
   constructor() { }
 
   ngOnInit() {
